@@ -6,12 +6,12 @@
    allowing you to step back and see the big picture.
 '/
 
-title "Context Diagram for Wallets Service Game"
+title "Context Diagram for Wallet Service"
 
-Person(person, "Player", "A person who wants to play the game")
-System(walletservice, "Wallets Service", "REST API for a card game style application")
+Person(user, "User", "A person managing their wallet")
+System(walletservice, "Wallet Service", "A REST API to manage wallets and transactions")
 
-Rel(person, walletservice, "Plays the game")
+Rel(user, walletservice, "Manages wallet operations (e.g., deposit, withdrawal, transfer)")
 
 LAYOUT_WITH_LEGEND()
 

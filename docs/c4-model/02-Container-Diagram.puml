@@ -8,24 +8,24 @@
    that executes code or stores data.
 '/
 
-title "Container Diagram for Wallets Service Game"
+title "Container Diagram for Wallet Service"
 
-AddElementTag("microService", $shape=EightSidedShape(), $legendText="micro service\'")
-AddElementTag("storage", $shape=RoundedBoxShape())
+AddElementTag("microService", $shape=EightSidedShape(), $legendText="Microservice")
+AddElementTag("storage", $shape=RoundedBoxShape(), $legendText="Storage")
 
 LAYOUT_LEFT_RIGHT()
 
-Person(person, "Player", "A person who wants to play the game")
+Person(user, "User", "A person managing their wallet")
 
-System_Boundary(container-diagram, "Wallets Service Game", "A system that validates specifications") {
-Container(webapi, "Wallets Service", "SpringBoot, Java", "A web api that manages Wallets Services", $tags = "microService")
-ContainerDb(database, "Database", "H2", "A database that stores the wallets and battles", $tags = "storage")
+System_Boundary(walletservice_boundary, "Wallet Service") {
+    Container(walletapi, "Wallet API", "Spring Boot, Java", "Manages wallets and transactions", $tags = "microService")
+    ContainerDb(database, "Database", "H2", "Stores wallet and transaction data", $tags = "storage")
 }
 
-Rel(person, webapi, "Plays the game", "HTTPS")
-Rel(webapi, database, "Reads from and writes to")
+Rel(user, walletapi, "Interacts with via REST API", "HTTPS")
+Rel(walletapi, database, "Reads from and writes to", "JDBC")
 
-Lay_R(webapi, database)
+Lay_R(walletapi, database)
 
 LAYOUT_WITH_LEGEND()
 
