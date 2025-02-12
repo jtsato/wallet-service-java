@@ -1,4 +1,4 @@
-# Set the base image to OpenJDK 17
+# Set the base image to OpenJDK 22
 FROM openjdk:17-alpine
 
 # Set the working directory

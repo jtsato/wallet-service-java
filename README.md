@@ -21,7 +21,7 @@
 
 ## Prerequisites
 
-* JDK 17
+* JDK 22
 * This project uses Lombok, so enable annotation processing in your IDE
 
 ## Technology Stack
