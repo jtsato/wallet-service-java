@@ -189,9 +189,6 @@
                             <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
-                    <compilerArgs>
-                        <arg>-proc:only</arg>
-                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>

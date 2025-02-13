@@ -11,7 +11,8 @@ public record Wallet(
     Long id,
     String userId,
     BigDecimal balance,
-    LocalDateTime createdAt)
+    LocalDateTime createdAt,
+    LocalDateTime updatedAt)
     implements Serializable {
 
     @Serial

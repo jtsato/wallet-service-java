@@ -1,4 +1,5 @@
 package io.github.jtsato.walletservice.core.domains.transactions.model;
+import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 import lombok.*;
 
 import java.io.Serial;
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 @Generated
 public record Transaction (
     Long id,
-    Long walletId,
+    Wallet wallet,
     BigDecimal amount,
     Type type,
     LocalDateTime createdAt)

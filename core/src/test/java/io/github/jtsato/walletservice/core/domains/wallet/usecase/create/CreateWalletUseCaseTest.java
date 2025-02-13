@@ -18,10 +18,10 @@ import static org.mockito.Mockito.when;
 class CreateWalletUseCaseTest {
 
     @Mock private final GetLocalDateTime getLocalDateTime = Mockito.mock(GetLocalDateTime.class);
-    @Mock private final IRegisterWalletGateway registerWalletGateway = Mockito.mock(IRegisterWalletGateway.class);
+    @Mock private final RegisterWalletGateway registerWalletGateway = Mockito.mock(RegisterWalletGateway.class);
 
     @InjectMocks
-    private final CreateWalletUseCase createWalletUseCase = new CreateWalletUseCase(getLocalDateTime, registerWalletGateway);
+    private final CreateWalletUseCaseImpl createWalletUseCase = new CreateWalletUseCaseImpl(getLocalDateTime, registerWalletGateway);
 
     @DisplayName("Successfully to create wallet")
     @Test
@@ -45,13 +45,14 @@ class CreateWalletUseCaseTest {
         assertThat(wallet.userId()).isEqualTo("1001");
         assertThat(wallet.balance()).isEqualTo(BigDecimal.ZERO);
         assertThat(wallet.createdAt()).isEqualTo(LocalDateTime.parse("2020-03-12T22:04:59.123"));
+        assertThat(wallet.updatedAt()).isEqualTo(LocalDateTime.parse("2020-03-12T22:04:59.123"));
     }
 
     private static Wallet buildWalletToBeRegistered() {
-        return new Wallet(null, "1001", BigDecimal.ZERO, LocalDateTime.parse("2020-03-12T22:04:59.123"));
+        return new Wallet(null, "1001", BigDecimal.ZERO, LocalDateTime.parse("2020-03-12T22:04:59.123"), LocalDateTime.parse("2020-03-12T22:04:59.123"));
     }
 
     private static Wallet buildRegisteredWallet() {
-        return new Wallet(1L, "1001", BigDecimal.ZERO, LocalDateTime.parse("2020-03-12T22:04:59.123"));
+        return new Wallet(1L, "1001", BigDecimal.ZERO, LocalDateTime.parse("2020-03-12T22:04:59.123"), LocalDateTime.parse("2020-03-12T22:04:59.123"));
     }
 }
