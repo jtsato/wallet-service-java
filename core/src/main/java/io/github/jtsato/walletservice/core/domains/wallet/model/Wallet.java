@@ -17,4 +17,12 @@ public record Wallet(
 
     @Serial
     private static final long serialVersionUID = -2882249634089711164L;
+
+    public Wallet withBalance(final BigDecimal balance) {
+        return new Wallet(id, userId, balance, createdAt, updatedAt);
+    }
+
+    public Wallet withUpdatedAt(final LocalDateTime updatedAt) {
+        return new Wallet(id, userId, balance, createdAt, updatedAt);
+    }
 }
