@@ -1,13 +1,12 @@
 package io.github.jtsato.walletservice.archunit;
 
-import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
-import static com.tngtech.archunit.library.freeze.FreezingArchRule.freeze;
-
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
-
 import io.github.jtsato.walletservice.WalletsServiceApplication;
+
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
+import static com.tngtech.archunit.library.freeze.FreezingArchRule.freeze;
 
 /**
  * @author Jorge Takeshi Sato

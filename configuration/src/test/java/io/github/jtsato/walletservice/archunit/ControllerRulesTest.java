@@ -1,19 +1,8 @@
 package io.github.jtsato.walletservice.archunit;
 
-import com.tngtech.archunit.base.DescribedPredicate;
-import com.tngtech.archunit.core.domain.JavaClass;
-import com.tngtech.archunit.core.domain.JavaMember;
-import com.tngtech.archunit.core.domain.PackageMatchers;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
-import com.tngtech.archunit.junit.ArchTest;
-import com.tngtech.archunit.lang.ArchRule;
 import io.github.jtsato.walletservice.WalletsServiceApplication;
-
-import static com.tngtech.archunit.core.domain.JavaClass.Functions.GET_PACKAGE_NAME;
-import static com.tngtech.archunit.core.domain.JavaMember.Predicates.declaredIn;
-import static com.tngtech.archunit.lang.conditions.ArchPredicates.are;
-import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 /**
  * @author Jorge Takeshi Sato

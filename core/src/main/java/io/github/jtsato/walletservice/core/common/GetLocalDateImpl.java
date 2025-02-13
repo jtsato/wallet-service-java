@@ -1,8 +1,8 @@
 package io.github.jtsato.walletservice.core.common;
 
-import java.time.LocalDate;
-
 import jakarta.inject.Named;
+
+import java.time.LocalDate;
 
 /**
  * @author Jorge Takeshi Sato

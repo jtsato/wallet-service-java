@@ -1,12 +1,11 @@
 package io.github.jtsato.walletservice.infra.domains.transaction;
 
 import io.github.jtsato.walletservice.infra.domains.wallet.WalletEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;

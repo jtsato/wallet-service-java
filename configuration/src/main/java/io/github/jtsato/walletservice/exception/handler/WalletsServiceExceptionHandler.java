@@ -4,6 +4,8 @@ import io.github.jtsato.walletservice.core.exception.InvalidActionException;
 import io.github.jtsato.walletservice.core.exception.NotFoundException;
 import io.github.jtsato.walletservice.entrypoint.rest.common.HttpResponseStatus;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.core.Ordered;
@@ -14,8 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Set;

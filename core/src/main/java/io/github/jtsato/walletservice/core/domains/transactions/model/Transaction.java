@@ -1,6 +1,7 @@
 package io.github.jtsato.walletservice.core.domains.transactions.model;
+
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
-import lombok.*;
+import lombok.Generated;
 
 import java.io.Serial;
 import java.io.Serializable;

@@ -1,13 +1,13 @@
 package io.github.jtsato.walletservice.infra.domains.wallet;
 
-import java.util.Optional;
-
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 import io.github.jtsato.walletservice.core.domains.wallet.xcutting.GetWalletByIdGateway;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

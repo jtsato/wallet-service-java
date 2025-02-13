@@ -1,9 +1,9 @@
 package io.github.jtsato.walletservice.configuration;
 
-import org.springframework.stereotype.Component;
-
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 
 /**

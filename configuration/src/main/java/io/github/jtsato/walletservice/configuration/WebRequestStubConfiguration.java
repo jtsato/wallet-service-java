@@ -1,6 +1,7 @@
 package io.github.jtsato.walletservice.configuration;
 
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.context.annotation.*;
@@ -8,7 +9,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
 

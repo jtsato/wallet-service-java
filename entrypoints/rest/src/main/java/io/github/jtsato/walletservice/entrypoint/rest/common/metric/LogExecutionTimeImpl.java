@@ -1,5 +1,7 @@
 package io.github.jtsato.walletservice.entrypoint.rest.common.metric;
 
+import lombok.Generated;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -8,9 +10,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import lombok.Generated;
-import lombok.SneakyThrows;
 
 import java.util.concurrent.TimeUnit;
 
