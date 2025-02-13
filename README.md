@@ -13,6 +13,8 @@
 **Table of Contents**
 * [Pre-requisites](#prerequisites)
 * [Technology Stack](#technology-stack)
+* [Container Diagram](#container-diagram)
+* [Component Diagram](#component-diagram)
 * [Running the application locally](#running-the-application-locally)
 * [Running the tests locally](#running-the-tests-locally)
 * [Available Endpoints](#available-endpoints)
@@ -25,7 +27,7 @@
 * This project uses Lombok, so enable annotation processing in your IDE
 
 ## Technology Stack
-* Language: [`Java 17`](https://www.java.com/) 
+* Language: [`Java 22`](https://www.java.com/) 
 * Compilation: [`Maven`](https://maven.apache.org/)
 * Framework: [`SpringBoot`](https://spring.io/projects/spring-boot)
 * Database: [`H2`](http://h2database.com/)
@@ -43,6 +45,12 @@
     * Code Coverage: [`Jacoco`](https://www.jacoco.org)
     * Architecture Testing: [`ArchUnit`](https://www.archunit.org/)
 
+## Container Diagram
+![Container Diagram](docs/diagrams/02-ContainerDiagram.png)
+
+## Component Diagram
+![Container Diagram](docs/diagrams/03-ComponentDiagram.png)
+  
 ## Running the application locally
 
 ```
@@ -63,29 +71,54 @@ mvn -e clean install verify
 
 ## Usecases
 
-### 1. Start the game
+### 1. Create Wallet: Allow the creation of wallets for users.
 ```
-curl -X POST "http://localhost:8081/v1/games" -H "accept: */*" -H "Accept-Language: pt_BR" -H "PlayerId: 0" -d ""
-```
-
-### 2. End the game
-```
-curl -X PATCH "http://localhost:8081/v1/games" -H "accept: */*" -H "Accept-Language: pt_BR" -H "PlayerId: 0"
-```
-
-### 3. Request a quiz
-```
-curl -X POST "http://localhost:8081/v1/quizzes" -H "accept: */*" -H "Accept-Language: pt_BR" -H "PlayerId: 0" -d ""
+curl -X POST "http://localhost:8081/v1/wallets" \
+-H "accept: */*" \
+-H "Accept-Language: pt_BR" \
+-H "Content-Type: application/json" \
+-d '{"userId": "123"}'
 ```
 
-### 4. Answer the quiz
+### 2. Retrieve Balance: Retrieve the current balance of a user's wallet.
 ```
-curl -X POST "http://localhost:8081/v1/bets" -H "accept: */*" -H "Accept-Language: pt_BR" -H "PlayerId: 0" -H "Content-Type: application/json" -d "{\"optionId\":\"tt2576852\"}"
+curl -X GET "http://localhost:8081/v1/wallets/{walletId}/balances" \
+-H "accept: */*" \
+-H "Accept-Language: pt_BR"
 ```
 
-### 5. Get the ranking
+### 3. Retrieve Historical Balance: Retrieve the balance of a user's wallet at a specif point in the past.
 ```
-curl -X GET "http://localhost:8081/v1/rankings" -H "accept: */*" -H "Accept-Language: pt_BR"
+curl -X GET "http://localhost:8081/v1/wallets/{walletId}/balances/histories?date=2022-03-01T00:00:00Z" \
+-H "accept: */*" \
+-H "Accept-Language: pt_BR"
+```
+
+### 4. Deposit Funds: Enable users to deposit money into their wallets.
+```
+curl -X POST "http://localhost:8081/v1/wallets/{walletId}/deposits" \
+-H "accept: */*" \
+-H "Accept-Language: pt_BR" \
+-H "Content-Type: application/json" \
+-d '{"amount": 100.50}'
+```
+
+### 5. Withdraw Funds: Enable users to withdraw money from their wallets.
+```
+curl -X POST "http://localhost:8081/v1/wallets/{walletId}/withdraws" \
+-H "accept: */*" \
+-H "Accept-Language: pt_BR" \
+-H "Content-Type: application/json" \
+-d '{"amount": 150.00}'
+```
+
+### 6. Transfer Funds: Facilitate the transfer of money between user wallets.
+```
+curl -X POST "http://localhost:8081/v1/wallets/{sourceWalletId}/transfers" \
+-H "accept: */*" \
+-H "Accept-Language: pt_BR" \
+-H "Content-Type: application/json" \
+-d '{"targetWalletId": "456", "amount": 25.00}'
 ```
 
 ## Solution Structure
