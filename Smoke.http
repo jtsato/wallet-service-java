@@ -1,0 +1,58 @@
+### 1. Create Wallet: Allow the creation of wallets for users.
+POST /v1/wallets HTTP/1.1
+User-Agent: vscode-restclient
+Content-Type: application/json
+Accept-Language: pt-BR
+Host: localhost:8081
+
+{
+  "userId": "blue"
+}
+
+### 2. Retrieve Balance: Retrieve the current balance of a user's wallet.
+GET /v1/wallets/1/balances HTTP/1.1
+User-Agent: vscode-restclient
+Accept: */*
+Accept-Language: pt-BR
+Host: localhost:8081
+
+### 3. Retrieve Historical Balance: Retrieve the balance of a user's wallet at a specif point in the past.
+GET /v1/wallets/1/balances/histories?date=2022-03-01T00:00:00Z HTTP/1.1
+User-Agent: vscode-restclient
+Accept: */*
+Accept-Language: pt-BR
+Host: localhost:8081
+
+### 4. Deposit Funds: Enable users to deposit money into their wallets.
+POST /v1/wallets/1/deposits HTTP/1.1
+User-Agent: vscode-restclient
+Content-Type: application/json
+Accept-Language: pt-BR
+Host: localhost:8081
+
+{
+  "amount": 100.50
+}
+
+### 5. Withdraw Funds: Enable users to withdraw money from their wallets.
+POST /v1/wallets/1/withdraws HTTP/1.1
+User-Agent: vscode-restclient
+Content-Type: application/json
+Accept-Language: pt-BR
+Host: localhost:8081
+
+{
+  "amount": 150.00
+}
+
+### 6. Transfer Funds: Facilitate the transfer of money between user wallets.
+POST /v1/wallets/1/transfers HTTP/1.1
+User-Agent: vscode-restclient
+Content-Type: application/json
+Accept-Language: pt-BR
+Host: localhost:8081
+
+{
+  "targetWalletId": "456",
+  "amount": 25.00
+}
