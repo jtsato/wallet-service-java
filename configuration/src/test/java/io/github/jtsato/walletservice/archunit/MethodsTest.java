@@ -11,10 +11,6 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
-/**
- * @author Jorge Takeshi Sato
- */
-
 @AnalyzeClasses(packagesOf = WalletsServiceApplication.class)
 public class MethodsTest {
 
@@ -29,9 +25,9 @@ public class MethodsTest {
                     .beAnnotatedWith(ResponseStatus.class);
 
     @ArchTest
-    static ArchRule codeUnits_in_Infra_layer_should_be_Transactional =
+    static ArchRule codeUnitsInDataProviderLayerShouldBeTransactional =
             classes().that()
-            .haveSimpleNameEndingWith("DatabaseProvider")
+            .haveSimpleNameEndingWith("Provider")
             .should()
             .beAnnotatedWith(Transactional.class);
 }
