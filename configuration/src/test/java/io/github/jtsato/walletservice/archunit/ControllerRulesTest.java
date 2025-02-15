@@ -1,42 +1,49 @@
 package io.github.jtsato.walletservice.archunit;
 
+import com.tngtech.archunit.base.DescribedPredicate;
+import com.tngtech.archunit.core.domain.JavaClass;
+import com.tngtech.archunit.core.domain.JavaMember;
+import com.tngtech.archunit.core.domain.PackageMatchers;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
+import com.tngtech.archunit.junit.ArchTest;
+import com.tngtech.archunit.lang.ArchRule;
 import io.github.jtsato.walletservice.WalletsServiceApplication;
 
-/**
- * @author Jorge Takeshi Sato
- */
+import static com.tngtech.archunit.core.domain.JavaClass.Functions.GET_PACKAGE_NAME;
+import static com.tngtech.archunit.core.domain.JavaMember.Predicates.declaredIn;
+import static com.tngtech.archunit.lang.conditions.ArchPredicates.are;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 @AnalyzeClasses(packagesOf = WalletsServiceApplication.class, importOptions = ImportOption.DoNotIncludeTests.class)
 public class ControllerRulesTest {
-    /*
+
     @ArchTest
-    static final ArchRule controllers_should_only_call_secured_methods = classes().that()
+    static final ArchRule controllerShouldOnlyCallSecuredMethods = classes().that()
             .haveSimpleNameEndingWith("Controller")
             .should()
             .onlyCallMethodsThat(allowedPackages());
 
     @ArchTest
-    static final ArchRule controllers_should_only_call_secured_constructors = classes().that()
+    static final ArchRule controllersShouldOnlyCallSecuredConstructors = classes().that()
             .haveSimpleNameEndingWith("Controller")
             .should()
             .onlyCallConstructorsThat(allowedPackages());
 
     @ArchTest
-    static final ArchRule controllers_should_only_call_secured_code_units = classes().that()
+    static final ArchRule controllersShouldOnlyCallSecuredCodeUnits = classes().that()
             .haveSimpleNameEndingWith("Controller")
             .should()
             .onlyCallCodeUnitsThat(allowedPackages());
 
     @ArchTest
-    static final ArchRule controllers_should_only_access_secured_fields = classes().that()
+    static final ArchRule controllersShouldOnlyAccessSecuredFields = classes().that()
             .haveSimpleNameEndingWith("Controller")
             .should()
             .onlyAccessFieldsThat(allowedPackages());
 
     @ArchTest
-    static final ArchRule controllers_should_only_access_secured_members = classes().that()
+    static final ArchRule controllersShouldOnlyAccessSecuredMembers = classes().that()
             .haveSimpleNameEndingWith("Controller")
             .should()
             .onlyAccessMembersThat(allowedPackages());
@@ -113,5 +120,5 @@ public class ControllerRulesTest {
                 .as("a package '..org.jacoco.agent..'");
         return are(declaredIn(aPackageController));
     }
-   */
+
 }
