@@ -1,7 +1,6 @@
 package io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.balance;
 
 import io.github.jtsato.walletservice.entrypoint.rest.common.HttpStatusConstants;
-import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.WalletResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

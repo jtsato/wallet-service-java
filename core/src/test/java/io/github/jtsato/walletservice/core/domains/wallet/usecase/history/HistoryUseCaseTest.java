@@ -2,14 +2,13 @@ package io.github.jtsato.walletservice.core.domains.wallet.usecase.history;
 
 import io.github.jtsato.walletservice.core.domains.transactions.model.Transaction;
 import io.github.jtsato.walletservice.core.domains.transactions.model.Type;
+import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 import io.github.jtsato.walletservice.core.domains.wallet.xcutting.FindTransactionsByWalletIdAndPeriodGateway;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-
-import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
-import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
