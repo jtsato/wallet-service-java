@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Named
 @RequiredArgsConstructor
-public class GetBalanceByWalletIdUseCaseImpl implements GetBalanceByWalletIdUseCase {
+public class RetrieveBalanceUseCaseImpl implements RetrieveBalanceUseCase {
 
     private final GetWalletByIdGateway getWalletByIdGateway;
 

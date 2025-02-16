@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Wallets")
 @FunctionalInterface
-public interface GetBalanceByWalletIdApiMethod {
+public interface RetrieveBalanceApiMethod {
 
     @Operation(summary = "Get balance by wallet id")
 

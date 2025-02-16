@@ -1,9 +1,9 @@
 package io.github.jtsato.walletservice.entrypoint.rest.domains.wallet;
 
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
-import io.github.jtsato.walletservice.core.domains.wallet.usecase.balance.GetBalanceByWalletIdUseCase;
+import io.github.jtsato.walletservice.core.domains.wallet.usecase.balance.RetrieveBalanceUseCase;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
-import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.balance.GetBalanceByWalletIdController;
+import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.balance.RetrieveBalanceController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,13 +30,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("Get Balance By Wallet Id Controller Test")
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = GetBalanceByWalletIdController.class)
-class GetBalanceByWalletIdControllerTest {
+@WebMvcTest(controllers = RetrieveBalanceController.class)
+class RetrieveBalanceControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private GetBalanceByWalletIdUseCase getBalanceByWalletIdUseCase;
+    private RetrieveBalanceUseCase RetrieveBalanceUseCase;
 
     @Autowired
     private WebRequest webRequest;
@@ -46,8 +46,8 @@ class GetBalanceByWalletIdControllerTest {
 
         @Bean
         @Primary
-        public GetBalanceByWalletIdUseCase mockGetBalanceByWalletIdUseCase() {
-            return Mockito.mock(GetBalanceByWalletIdUseCase.class);
+        public RetrieveBalanceUseCase mockRetrieveBalanceUseCase() {
+            return Mockito.mock(RetrieveBalanceUseCase.class);
         }
 
         @Bean
@@ -59,14 +59,14 @@ class GetBalanceByWalletIdControllerTest {
 
     @DisplayName("Successful to get balance by wallet id")
     @Test
-    void successfulToGetBalanceByWalletId() throws Exception {
+    void successfulToRetrieveBalance() throws Exception {
 
         // Arrange
         when(webRequest.getEmail()).thenReturn("joe.doe.one@xyz.com");
         when(webRequest.getFullName()).thenReturn("Joe Doe");
 
         // Arrange
-        when(getBalanceByWalletIdUseCase.execute(1L)).thenReturn(new Wallet(1L, "yellow", BigDecimal.ZERO, LocalDateTime.of(2021, 1, 1, 0, 0, 0), LocalDateTime.of(2021, 1, 1, 0, 0, 0)));
+        when(RetrieveBalanceUseCase.execute(1L)).thenReturn(new Wallet(1L, "yellow", BigDecimal.ZERO, LocalDateTime.of(2021, 1, 1, 0, 0, 0), LocalDateTime.of(2021, 1, 1, 0, 0, 0)));
 
         // Act
         // Assert

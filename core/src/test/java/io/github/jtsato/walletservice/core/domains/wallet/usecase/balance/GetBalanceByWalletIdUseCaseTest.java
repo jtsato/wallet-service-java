@@ -17,17 +17,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @DisplayName("Get Balance By Wallet Id Use Case Test")
-class GetBalanceByWalletIdUseCaseTest {
+class RetrieveBalanceUseCaseTest {
 
     @Mock
     private final GetWalletByIdGateway gateway = Mockito.mock(GetWalletByIdGateway.class);
 
     @InjectMocks
-    private final GetBalanceByWalletIdUseCase useCase = new GetBalanceByWalletIdUseCaseImpl(gateway);
+    private final RetrieveBalanceUseCase useCase = new RetrieveBalanceUseCaseImpl(gateway);
 
     @DisplayName("Fail to get balance by wallet id when wallet id is null")
     @Test
-    void failToGetBalanceByWalletIdWhenWalletIdIsNull() {
+    void failToRetrieveBalanceWhenWalletIdIsNull() {
         // Arrange
         when(gateway.execute(null)).thenReturn(Optional.empty());
 
@@ -39,7 +39,7 @@ class GetBalanceByWalletIdUseCaseTest {
 
     @DisplayName("Successful to get balance by wallet id")
     @Test
-    void successfulToGetBalanceByWalletId() {
+    void successfulToRetrieveBalance() {
         // Arrange
         when(gateway.execute(1L)).thenReturn(Optional.of(mockGetWalletByIdGatewayOut()));
 

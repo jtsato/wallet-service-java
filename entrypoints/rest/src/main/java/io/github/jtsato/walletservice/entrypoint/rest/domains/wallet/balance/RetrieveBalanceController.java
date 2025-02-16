@@ -1,7 +1,7 @@
 package io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.balance;
 
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
-import io.github.jtsato.walletservice.core.domains.wallet.usecase.balance.GetBalanceByWalletIdUseCase;
+import io.github.jtsato.walletservice.core.domains.wallet.usecase.balance.RetrieveBalanceUseCase;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
 import io.github.jtsato.walletservice.entrypoint.rest.common.metric.LogExecutionTime;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.WalletPresenter;
@@ -25,11 +25,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("v1/wallets")
-public class GetBalanceByWalletIdController implements GetBalanceByWalletIdApiMethod {
+public class RetrieveBalanceController implements RetrieveBalanceApiMethod {
 
-    private static final Logger log = LoggerFactory.getLogger(GetBalanceByWalletIdController.class);
+    private static final Logger log = LoggerFactory.getLogger(RetrieveBalanceController.class);
 
-    private final GetBalanceByWalletIdUseCase useCase;
+    private final RetrieveBalanceUseCase useCase;
     private final WebRequest webRequest;
 
     @Override
@@ -37,11 +37,11 @@ public class GetBalanceByWalletIdController implements GetBalanceByWalletIdApiMe
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public WalletResponse execute(@PathVariable final Long id) {
-        log.info("Controller -> GetBalanceByWalletIdController by User: {}", webRequest.getEmail());
-        log.info("Controller -> GetBalanceByWalletIdController by Wallet Id: {}", id);
+        log.info("Controller -> RetrieveBalanceController by User: {}", webRequest.getEmail());
+        log.info("Controller -> RetrieveBalanceController by Wallet Id: {}", id);
         final Wallet wallet = useCase.execute(id);
         final WalletResponse response = WalletPresenter.of(wallet);
-        log.info("Controller -> GetBalanceByWalletIdController.execute with response: {}", response);
+        log.info("Controller -> RetrieveBalanceController.execute with response: {}", response);
 
         return response;
     }
