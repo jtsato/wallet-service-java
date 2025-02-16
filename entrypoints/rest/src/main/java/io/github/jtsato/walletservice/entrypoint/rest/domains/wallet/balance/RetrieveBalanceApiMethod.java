@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import java.math.BigDecimal;
+
 @Tag(name = "Wallets")
 @FunctionalInterface
 public interface RetrieveBalanceApiMethod {
@@ -29,5 +31,5 @@ public interface RetrieveBalanceApiMethod {
             @ApiResponse(responseCode = HttpStatusConstants.INTERNAL_SERVER_ERROR_500, description = HttpStatusConstants.INTERNAL_SERVER_ERROR_500_MESSAGE),
     })
 
-    WalletResponse execute(@Parameter(description = "Wallet Id") final Long id);
+    BigDecimal execute(@Parameter(description = "Wallet Id") final Long id);
 }

@@ -4,13 +4,13 @@ import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 import io.github.jtsato.walletservice.core.domains.wallet.usecase.balance.RetrieveBalanceUseCase;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
 import io.github.jtsato.walletservice.entrypoint.rest.common.metric.LogExecutionTime;
-import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.WalletPresenter;
-import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.WalletResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 /*
  * A EntryPoint follows these steps:
@@ -36,13 +36,12 @@ public class RetrieveBalanceController implements RetrieveBalanceApiMethod {
     @LogExecutionTime
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public WalletResponse execute(@PathVariable final Long id) {
+    public BigDecimal execute(@PathVariable final Long id) {
         log.info("Controller -> RetrieveBalanceController by User: {}", webRequest.getEmail());
         log.info("Controller -> RetrieveBalanceController by Wallet Id: {}", id);
         final Wallet wallet = useCase.execute(id);
-        final WalletResponse response = WalletPresenter.of(wallet);
-        log.info("Controller -> RetrieveBalanceController.execute with response: {}", response);
+        log.info("Controller -> RetrieveBalanceController.execute with response: {}", wallet.balance());
 
-        return response;
+        return wallet.balance();
     }
 }

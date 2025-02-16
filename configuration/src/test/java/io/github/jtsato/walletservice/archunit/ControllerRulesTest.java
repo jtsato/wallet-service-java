@@ -57,7 +57,8 @@ public class ControllerRulesTest {
                 .or(areDeclaredInSpringFramework())
                 .or(areDeclaredInApacheCommons())
                 .or(areLogger())
-                .or(areDeclaredInByJacoco());
+                .or(areDeclaredInByJacoco())
+                .or(areDeclaredInModel());
     }
 
     private static DescribedPredicate<JavaMember> areDeclaredInController() {
@@ -121,4 +122,10 @@ public class ControllerRulesTest {
         return are(declaredIn(aPackageController));
     }
 
+    private static DescribedPredicate<JavaMember> areDeclaredInModel() {
+        final DescribedPredicate<JavaClass> aPackageController = GET_PACKAGE_NAME
+                .is(PackageMatchers.of("..model..", "java.."))
+                .as("a package '..model..'");
+        return are(declaredIn(aPackageController));
+    }
 }

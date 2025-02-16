@@ -16,8 +16,11 @@ Person(user, "User", "A person managing their wallet")
 
 System_Boundary(walletservice, "Wallet Service") {
     Container_Boundary(restEntrypoint, "REST Entrypoint") {
-        Container(walletController, "Wallet Controller", "Component: @RestController", "Handles wallet-related requests")
-        Container(transactionController, "Transaction Controller", "Component: @RestController", "Handles transaction-related requests")
+        Container(createWalletController, "Create Wallet Controller", "Component: @RestController", "Handles wallet creation requests")
+        Container(retrieveBalanceController, "Retrieve Balance Controller", "Component: @RestController", "Handles balance retrieval requests")
+        Container(depositFundsController, "Deposit Funds Controller", "Component: @RestController", "Handles deposit requests")
+        Container(withdrawFundsController, "Withdraw Funds Controller", "Component: @RestController", "Handles withdrawal requests")
+        Container(transferFundsController, "Transfer Funds Controller", "Component: @RestController", "Handles transfer requests")
     }
     
     Container_Boundary(coreBusiness, "Core Business") {
@@ -37,17 +40,20 @@ System_Boundary(walletservice, "Wallet Service") {
 
 ContainerDb(database, "Database", "H2", "Stores wallet and transaction data", $tags = "storage")
 
-Rel_D(user, walletController, "Sends requests", "JSON via HTTPS")
-Rel_D(walletController, createWalletUseCase, "Calls", "method")
-Rel_D(walletController, retrieveBalanceUseCase, "Calls", "method")
-Rel_D(transactionController, depositFundsUseCase, "Calls", "method")
-Rel_D(transactionController, withdrawFundsUseCase, "Calls", "method")
-Rel_D(transactionController, transferFundsUseCase, "Calls", "method")
+Rel_D(user, walletservice, "Sends requests", "JSON via HTTPS")
+Rel_D(createWalletController, createWalletUseCase, "Calls", "method")
+Rel_D(retrieveBalanceController, retrieveBalanceUseCase, "Calls", "method")
+Rel_D(depositFundsController, depositFundsUseCase, "Calls", "method")
+Rel_D(withdrawFundsController, withdrawFundsUseCase, "Calls", "method")
+Rel_D(transferFundsController, transferFundsUseCase, "Calls", "method")
 
 Rel_D(createWalletUseCase, walletRepository, "Interacts with", "JPA Repository")
 Rel_D(retrieveBalanceUseCase, walletRepository, "Interacts with", "JPA Repository")
+Rel_D(depositFundsUseCase, walletRepository, "Interacts with", "JPA Repository")
 Rel_D(depositFundsUseCase, transactionRepository, "Interacts with", "JPA Repository")
+Rel_D(withdrawFundsUseCase, walletRepository, "Interacts with", "JPA Repository")
 Rel_D(withdrawFundsUseCase, transactionRepository, "Interacts with", "JPA Repository")
+Rel_D(transferFundsUseCase, walletRepository, "Interacts with", "JPA Repository")
 Rel_D(transferFundsUseCase, transactionRepository, "Interacts with", "JPA Repository")
 Rel_D(walletRepository, orm, "Uses", "JPA")
 Rel_D(transactionRepository, orm, "Uses", "JPA")

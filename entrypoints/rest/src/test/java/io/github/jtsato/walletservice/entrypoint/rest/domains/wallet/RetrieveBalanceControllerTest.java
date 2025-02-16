@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@DisplayName("Get Balance By Wallet Id Controller Test")
+@DisplayName("Retrieve Balance Controller Test")
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = RetrieveBalanceController.class)
@@ -36,7 +36,7 @@ class RetrieveBalanceControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private RetrieveBalanceUseCase RetrieveBalanceUseCase;
+    private RetrieveBalanceUseCase retrieveBalanceUseCase;
 
     @Autowired
     private WebRequest webRequest;
@@ -66,7 +66,7 @@ class RetrieveBalanceControllerTest {
         when(webRequest.getFullName()).thenReturn("Joe Doe");
 
         // Arrange
-        when(RetrieveBalanceUseCase.execute(1L)).thenReturn(new Wallet(1L, "yellow", BigDecimal.ZERO, LocalDateTime.of(2021, 1, 1, 0, 0, 0), LocalDateTime.of(2021, 1, 1, 0, 0, 0)));
+        when(retrieveBalanceUseCase.execute(1L)).thenReturn(new Wallet(1L, "yellow", BigDecimal.ZERO, LocalDateTime.of(2021, 1, 1, 0, 0, 0), LocalDateTime.of(2021, 1, 1, 0, 0, 0)));
 
         // Act
         // Assert
@@ -75,10 +75,7 @@ class RetrieveBalanceControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.balance", is(0)))
-                .andExpect(jsonPath("$.createdAt", is("2021-01-01T00:00:00")))
-                .andExpect(jsonPath("$.updatedAt", is("2021-01-01T00:00:00")));
+                .andExpect(jsonPath("$", is(0)));
 
     }
 }
