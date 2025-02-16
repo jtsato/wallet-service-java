@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 import io.github.jtsato.walletservice.core.domains.wallet.usecase.create.CreateWalletCommand;
 import io.github.jtsato.walletservice.core.domains.wallet.usecase.create.CreateWalletUseCase;
-import io.github.jtsato.walletservice.entrypoint.rest.common.JsonConverter;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.create.CreateWalletController;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.create.CreateWalletRequest;
@@ -74,7 +73,8 @@ class CreateWalletControllerTest {
         final CreateWalletCommand command = new CreateWalletCommand("red");
         when(createWalletUseCase.execute(command)).thenReturn(new Wallet(1L, "red", new BigDecimal("1001.01"), LocalDateTime.parse("2025-02-14T22:04:59.123"), LocalDateTime.parse("2025-02-14T22:04:59.456")));
 
-        // Act & Assert
+        // Act
+        // Assert
         mockMvc.perform(post("/v1/wallets").content(buildRequestBody()).contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isCreated())

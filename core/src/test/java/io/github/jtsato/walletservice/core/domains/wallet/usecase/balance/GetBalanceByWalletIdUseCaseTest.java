@@ -1,12 +1,5 @@
 package io.github.jtsato.walletservice.core.domains.wallet.usecase.balance;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Optional;
-
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 import io.github.jtsato.walletservice.core.domains.wallet.xcutting.GetWalletByIdGateway;
 import org.junit.jupiter.api.Assertions;
@@ -15,6 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @DisplayName("Get Balance By Wallet Id Use Case Test")
 class GetBalanceByWalletIdUseCaseTest {
