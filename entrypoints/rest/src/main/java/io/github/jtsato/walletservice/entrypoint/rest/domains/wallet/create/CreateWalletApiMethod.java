@@ -28,6 +28,6 @@ public interface CreateWalletApiMethod {
             @ApiResponse(responseCode = HttpStatusConstants.CONFLICT_409, description = HttpStatusConstants.CONFLICT_409_MESSAGE),
             @ApiResponse(responseCode = HttpStatusConstants.INTERNAL_SERVER_ERROR_500, description = HttpStatusConstants.INTERNAL_SERVER_ERROR_500_MESSAGE),
     })
-    
+
     WalletResponse execute(final CreateWalletRequest request);
 }
