@@ -1,4 +1,4 @@
-package io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.history;
+package io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.history;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -19,6 +19,7 @@ public final class RetrieveHistoryRequest implements Serializable {
     @Serial
     private static final long serialVersionUID = -7019480436873286085L;
 
-    private String initialDate;
-    private String finalDate;
+    private String startDate;
+
+    private String endDate;
 }

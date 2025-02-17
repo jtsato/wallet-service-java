@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface RetrieveHistoricalBalanceUseCase {
 
-    List<Transaction> execute(final Long walletId, final LocalDateTime initialDate, final LocalDateTime finalDate);
+    List<Transaction> execute(final Long walletId, final LocalDateTime startDate, final LocalDateTime endDate);
 }

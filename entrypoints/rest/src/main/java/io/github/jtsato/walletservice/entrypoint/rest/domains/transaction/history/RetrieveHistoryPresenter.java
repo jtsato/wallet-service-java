@@ -1,4 +1,4 @@
-package io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.history;
+package io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.history;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -20,11 +20,11 @@ public class RetrieveHistoryUseCaseImpl implements RetrieveHistoryUseCase {
     private final FindTransactionsByWalletIdAndPeriodGateway gateway;
 
     @Override
-    public Page<Transaction> execute(final Long walletId, final String initialDate, final String finalDate, final Integer pageNumber, final Integer pageSize, final String orderBy) {
+    public Page<Transaction> execute(final Long walletId, final String startDate, final String endDate, final Integer pageNumber, final Integer pageSize, final String orderBy) {
 
-        final LocalDateTime initialDateParsed = LocalDateTime.parse(initialDate, DateTimeFormatter.ISO_DATE_TIME);
-        final LocalDateTime finalDateParsed = LocalDateTime.parse(finalDate, DateTimeFormatter.ISO_DATE_TIME);
+        final LocalDateTime startDateParsed = LocalDateTime.parse(startDate, DateTimeFormatter.ISO_DATE_TIME);
+        final LocalDateTime endDateParsed = LocalDateTime.parse(endDate, DateTimeFormatter.ISO_DATE_TIME);
 
-        return gateway.execute(walletId, initialDateParsed, finalDateParsed, pageNumber, pageSize, orderBy);
+        return gateway.execute(walletId, startDateParsed, endDateParsed, pageNumber, pageSize, orderBy);
     }
 }

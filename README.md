@@ -89,7 +89,7 @@ curl -X GET "http://localhost:8081/v1/wallets/{walletId}/balances" \
 
 ### 3. Retrieve Historical Balance: Retrieve the balance of a user's wallet at a specif point in the past.
 ```
-curl -X GET "http://localhost:8081/v1/wallets/{walletId}/balances/historical?start_date=2022-03-01T00:00:00Z&end_date=2022-03-31T23:59:59Z" \
+curl -X GET "http://localhost:8081/v1/wallets/{walletId}/balances/historical?startDate=2022-03-01T00:00:00Z&endDate=2022-03-31T23:59:59Z" \
 -H "accept: */*" \
 -H "Accept-Language: pt_BR"
 ```

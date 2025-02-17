@@ -33,9 +33,9 @@ public class FindTransactionsByWalletIdAndPeriodProvider implements FindTransact
     private final TransactionRepository transactionRepository;
 
     @Override
-    public Page<Transaction> execute(final Long walletId, final LocalDateTime initialDate, final LocalDateTime finalDate, final Integer pageNumber, final Integer size, final String orderBy) {
+    public Page<Transaction> execute(final Long walletId, final LocalDateTime startDate, final LocalDateTime endDate, final Integer pageNumber, final Integer size, final String orderBy) {
 
-        final BooleanExpression predicate = buildPredicate(walletId, initialDate, finalDate);
+        final BooleanExpression predicate = buildPredicate(walletId, startDate, endDate);
         final PageRequest pageRequest = PageRequestHelper.buildPageRequest(pageNumber, size, sanitizeOrderBy(orderBy));
 
         final org.springframework.data.domain.Page<TransactionEntity> transactions = transactionRepository.findAll(predicate, pageRequest);
@@ -45,13 +45,13 @@ public class FindTransactionsByWalletIdAndPeriodProvider implements FindTransact
         return new PageImpl<>(content, pageable);
     }
 
-    private BooleanExpression buildPredicate(final Long walletId, final LocalDateTime initialDate, final LocalDateTime finalDate) {
+    private BooleanExpression buildPredicate(final Long walletId, final LocalDateTime startDate, final LocalDateTime endDate) {
         BooleanExpression expression = QTransactionEntity.transactionEntity.wallet.id.eq(walletId);
-        if (initialDate != null) {
-            expression = expression.and(QTransactionEntity.transactionEntity.createdAt.goe(initialDate));
+        if (startDate != null) {
+            expression = expression.and(QTransactionEntity.transactionEntity.createdAt.goe(startDate));
         }
-        if (finalDate != null) {
-            expression = expression.and(QTransactionEntity.transactionEntity.createdAt.loe(finalDate));
+        if (endDate != null) {
+            expression = expression.and(QTransactionEntity.transactionEntity.createdAt.loe(endDate));
         }
         return expression;
     }

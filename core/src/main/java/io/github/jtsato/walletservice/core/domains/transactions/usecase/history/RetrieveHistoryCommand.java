@@ -29,17 +29,17 @@ public class RetrieveHistoryCommand extends SelfValidating<RetrieveHistoryComman
     @NotNull(message = "validation.wallet.id.null")
     private final Long walletId;
 
-    @NotBlank(message = "validation.transaction.history.initial.date.blank")
-    @LocalDateTimeConstraint(message = "validation.transaction.history.initial.date.invalid")
-    private final String initialDate;
+    @NotBlank(message = "validation.transaction.history.start.date.blank")
+    @LocalDateTimeConstraint(message = "validation.transaction.history.start.date.invalid")
+    private final String startDate;
 
-    @LocalDateTimeConstraint(message = "validation.transaction.history.final.date.invalid")
-    private final String finalDate;
+    @LocalDateTimeConstraint(message = "validation.transaction.history.end.date.invalid")
+    private final String endDate;
 
-    public RetrieveHistoryCommand(final Long walletId, final String initialDate, final String finalDate) {
+    public RetrieveHistoryCommand(final Long walletId, final String startDate, final String endDate) {
         this.walletId = walletId;
-        this.initialDate = initialDate;
-        this.finalDate = finalDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
         validateSelf();
     }
 }

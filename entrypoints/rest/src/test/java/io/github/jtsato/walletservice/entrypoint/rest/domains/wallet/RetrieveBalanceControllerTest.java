@@ -66,16 +66,15 @@ class RetrieveBalanceControllerTest {
         when(webRequest.getFullName()).thenReturn("Joe Doe");
 
         // Arrange
-        when(retrieveBalanceUseCase.execute(1L)).thenReturn(new Wallet(1L, "yellow", BigDecimal.ZERO, LocalDateTime.of(2021, 1, 1, 0, 0, 0), LocalDateTime.of(2021, 1, 1, 0, 0, 0)));
+        when(retrieveBalanceUseCase.execute(1L)).thenReturn(new Wallet(1L, "yellow", new BigDecimal("1001.01"), LocalDateTime.of(2021, 1, 1, 0, 0, 0), LocalDateTime.of(2021, 1, 1, 0, 0, 0)));
 
         // Act
         // Assert
-        mockMvc.perform(get("/v1/wallets/1")
+        mockMvc.perform(get("/v1/wallets/1/balances")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("$", is(0)));
-
+                .andExpect(jsonPath("$.balance", is(1001.01)));
     }
 }

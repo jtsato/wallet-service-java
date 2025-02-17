@@ -9,5 +9,5 @@ import io.github.jtsato.walletservice.core.domains.transactions.model.Transactio
 
 public interface RetrieveHistoryUseCase {
 
-    Page<Transaction> execute(final Long walletId, final String initialDate, final String finalDate, final Integer pageNumber, final Integer pageSize, final String orderBy);
+    Page<Transaction> execute(final Long walletId, final String startDate, final String endDate, final Integer pageNumber, final Integer pageSize, final String orderBy);
 }

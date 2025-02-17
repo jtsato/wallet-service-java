@@ -17,7 +17,7 @@ Accept-Language: pt-BR
 Host: localhost:8081
 
 ### 3. Retrieve Historical Balance: Retrieve the balance of a user's wallet at a specif point in the past.
-GET /v1/wallets/1/balances/histories?date=2022-03-01T00:00:00Z HTTP/1.1
+GET /v1/wallets/1/balances/historical?startDate=2025-02-17T00:00:00Z&endDate=2025-02-19T23:59:59Z HTTP/1.1
 User-Agent: vscode-restclient
 Accept: */*
 Accept-Language: pt-BR

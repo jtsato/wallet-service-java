@@ -3,16 +3,6 @@ logging:
       io.github.jtsato.walletservice: debug
       org.springframework.web: warn
       io.swagger.models.parameters.AbstractSerializableParameter: error
-app:
-   wallets-catalog:
-      url: http://localhost:8080
-   gateway:
-      get-all-wallets-count:
-         provider-classname: GetAllWalletsCountRestClientProvider
-      get-movie-by-imdb-id:
-         provider-classname: GetMovieByImdbIdRestClientProvider
-      get-random-movie:
-         provider-classname: GetRandomMovieRestClientProvider
 server:
    http2:
       enabled: true

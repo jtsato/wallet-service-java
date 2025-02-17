@@ -1,4 +1,4 @@
-package io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.history;
+package io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.history;
 
 /*
  * A EntryPoint follows these steps:
@@ -46,12 +46,12 @@ public class RetrieveHistoryController implements RetrieveHistoryApiMethod {
         log.info("Controller -> RetrieveHistoryController with: {}", jsonRequest);
 
         final RetrieveHistoryCommand command = buildRetrieveHistoryCommand(walletId, retrieveHistoryRequest);
-        final Page<Transaction> pageOfTransactions = useCase.execute(walletId, command.getInitialDate(), command.getFinalDate(), pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString());
+        final Page<Transaction> pageOfTransactions = useCase.execute(walletId, command.getStartDate(), command.getEndDate(), pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString());
 
         return RetrieveHistoryPresenter.of(pageOfTransactions);
     }
 
     private RetrieveHistoryCommand buildRetrieveHistoryCommand(final Long walletId, RetrieveHistoryRequest retrieveHistoryRequest) {
-        return new RetrieveHistoryCommand(walletId, retrieveHistoryRequest.getInitialDate(), retrieveHistoryRequest.getFinalDate());
+        return new RetrieveHistoryCommand(walletId, retrieveHistoryRequest.getStartDate(), retrieveHistoryRequest.getEndDate());
     }
 }

@@ -30,5 +30,5 @@ public interface RetrieveBalanceApiMethod {
             @ApiResponse(responseCode = HttpStatusConstants.INTERNAL_SERVER_ERROR_500, description = HttpStatusConstants.INTERNAL_SERVER_ERROR_500_MESSAGE),
     })
 
-    BigDecimal execute(@Parameter(description = "Wallet Id") final Long id);
+    BalanceResponse execute(@Parameter(description = "Wallet Id") final Long id);
 }

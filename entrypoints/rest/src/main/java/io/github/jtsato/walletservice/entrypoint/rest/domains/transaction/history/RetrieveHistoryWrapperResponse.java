@@ -1,4 +1,4 @@
-package io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.history;
+package io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.history;
 
 import io.github.jtsato.walletservice.core.common.paging.PageImpl;
 import io.github.jtsato.walletservice.core.common.paging.Pageable;

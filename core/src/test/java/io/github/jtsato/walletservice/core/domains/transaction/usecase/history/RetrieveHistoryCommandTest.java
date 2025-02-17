@@ -25,7 +25,7 @@ class RetrieveHistoryCommandTest {
         final ConstraintViolationException constraintViolationException = (ConstraintViolationException) exception;
         assertThat(constraintViolationException.getConstraintViolations()).hasSize(2);
         assertThat(constraintViolationException.getMessage()).contains("walletId: validation.wallet.id.null");
-        assertThat(constraintViolationException.getMessage()).contains("initialDate: validation.transaction.history.initial.date.blank");
+        assertThat(constraintViolationException.getMessage()).contains("startDate: validation.transaction.history.start.date.blank");
     }
 
     @DisplayName("Fail to create RetrieveHistoryCommand if parameters are invalid")
@@ -41,8 +41,8 @@ class RetrieveHistoryCommandTest {
 
         final ConstraintViolationException constraintViolationException = (ConstraintViolationException) exception;
         assertThat(constraintViolationException.getConstraintViolations()).hasSize(2);
-        assertThat(constraintViolationException.getMessage()).contains("initialDate: validation.transaction.history.initial.date.invalid");
-        assertThat(constraintViolationException.getMessage()).contains( "finalDate: validation.transaction.history.final.date.invalid");
+        assertThat(constraintViolationException.getMessage()).contains("startDate: validation.transaction.history.start.date.invalid");
+        assertThat(constraintViolationException.getMessage()).contains( "endDate: validation.transaction.history.end.date.invalid");
     }
 
 
@@ -57,7 +57,7 @@ class RetrieveHistoryCommandTest {
         // Assert
         assertThat(retrieveHistoryCommand).isNotNull();
         assertThat(retrieveHistoryCommand.getWalletId()).isEqualTo(1L);
-        assertThat(retrieveHistoryCommand.getInitialDate()).isEqualTo("2020-03-12T22:04:59.123");
-        assertThat(retrieveHistoryCommand.getFinalDate()).isEqualTo("2020-03-12T22:04:59.456");
+        assertThat(retrieveHistoryCommand.getStartDate()).isEqualTo("2020-03-12T22:04:59.123");
+        assertThat(retrieveHistoryCommand.getEndDate()).isEqualTo("2020-03-12T22:04:59.456");
     }
 }

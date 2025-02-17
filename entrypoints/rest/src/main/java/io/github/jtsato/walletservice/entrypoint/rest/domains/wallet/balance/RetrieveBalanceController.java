@@ -35,13 +35,13 @@ public class RetrieveBalanceController implements RetrieveBalanceApiMethod {
     @Override
     @LogExecutionTime
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{id}")
-    public BigDecimal execute(@PathVariable final Long id) {
+    @GetMapping("/{id}/balances")
+    public BalanceResponse execute(@PathVariable final Long id) {
         log.info("Controller -> RetrieveBalanceController by User: {}", webRequest.getEmail());
         log.info("Controller -> RetrieveBalanceController by Wallet Id: {}", id);
         final Wallet wallet = useCase.execute(id);
         log.info("Controller -> RetrieveBalanceController.execute with response: {}", wallet.balance());
 
-        return wallet.balance();
+        return new BalanceResponse(wallet.balance());
     }
 }

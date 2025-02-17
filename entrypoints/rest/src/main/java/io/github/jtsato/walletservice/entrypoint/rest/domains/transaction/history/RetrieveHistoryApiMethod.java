@@ -1,4 +1,4 @@
-package io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.history;
+package io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.history;
 
 import io.github.jtsato.walletservice.entrypoint.rest.common.HttpStatusConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,11 +26,13 @@ public interface RetrieveHistoryApiMethod {
     @PageableAsQueryParam
 
     @Parameter(in = ParameterIn.QUERY,
-            name = "initialDate",
+            required = true,
+            name = "startDate",
             description = "Filters transaction's creation date after the specified date. Format: ISO DATETIME",
             content = @Content(schema = @Schema(type = "string")))
+
     @Parameter(in = ParameterIn.QUERY,
-            name = "finalDate",
+            name = "endDate",
             description = "Filters transaction's creation date before the specified date. Format: ISO DATETIME",
             content = @Content(schema = @Schema(type = "string")))
 
@@ -44,6 +46,6 @@ public interface RetrieveHistoryApiMethod {
     })
 
     RetrieveHistoryWrapperResponse execute(@Parameter(hidden = true) final Pageable pageable,
-                                           @Parameter(hidden = true) final Long walletId,
+                                           @Parameter final Long walletId,
                                            @Parameter(hidden = true) final RetrieveHistoryRequest retrieveHistoryRequest);
 }

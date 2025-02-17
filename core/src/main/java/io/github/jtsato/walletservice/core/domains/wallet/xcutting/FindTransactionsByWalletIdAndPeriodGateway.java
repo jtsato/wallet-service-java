@@ -8,5 +8,5 @@ import java.time.LocalDateTime;
 @FunctionalInterface
 public interface FindTransactionsByWalletIdAndPeriodGateway {
 
-    Page<Transaction> execute(final Long walletId, final LocalDateTime initialDate, final LocalDateTime finalDate, final Integer pageNumber, final Integer size, final String orderBy);
+    Page<Transaction> execute(final Long walletId, final LocalDateTime startDate, final LocalDateTime endDate, final Integer pageNumber, final Integer size, final String orderBy);
 }
