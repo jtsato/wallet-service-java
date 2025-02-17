@@ -53,6 +53,6 @@ Accept-Language: pt-BR
 Host: localhost:8081
 
 {
-  "targetWalletId": "456",
+  "destinationWalletId": "456",
   "amount": 25.00
 }
