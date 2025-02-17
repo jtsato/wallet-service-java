@@ -46,7 +46,7 @@ public class RetrieveHistoryController implements RetrieveHistoryApiMethod {
         log.info("Controller -> RetrieveHistoryController with: {}", jsonRequest);
 
         final RetrieveHistoryCommand command = buildRetrieveHistoryCommand(walletId, retrieveHistoryRequest);
-        final Page<Transaction> pageOfTransactions = useCase.execute(walletId, command.getInitialDate(), command.getFinalDate());
+        final Page<Transaction> pageOfTransactions = useCase.execute(walletId, command.getInitialDate(), command.getFinalDate(), pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString());
 
         return RetrieveHistoryPresenter.of(pageOfTransactions);
     }

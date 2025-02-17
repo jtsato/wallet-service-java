@@ -35,7 +35,7 @@ class RetrieveHistoryUseCaseTest {
     @Test
     void successfulToRetrieveHistoryWhenThereIsNoTransaction() {
         // Arrange
-        when(gateway.execute(1L, LocalDateTime.parse("2020-03-12T22:04:59.123"), LocalDateTime.parse("2020-03-12T22:04:59.456")))
+        when(gateway.execute(1L, LocalDateTime.parse("2020-03-12T22:04:59.123"), LocalDateTime.parse("2020-03-12T22:04:59.456"), 0, 1, "createdAt:asc"))
                 .thenReturn(new Page<Transaction>() {
                     @Override
                     public List<Transaction> getContent() {
@@ -49,7 +49,7 @@ class RetrieveHistoryUseCaseTest {
                 });
 
         // Act
-        final Page<Transaction> pageOfTransactions = useCase.execute(1L,"2020-03-12T22:04:59.123","2020-03-12T22:04:59.456");
+        final Page<Transaction> pageOfTransactions = useCase.execute(1L,"2020-03-12T22:04:59.123","2020-03-12T22:04:59.456", 0, 1, "createdAt:asc");
 
         // Assert
         assertThat(pageOfTransactions).isNotNull();
@@ -69,7 +69,7 @@ class RetrieveHistoryUseCaseTest {
     @Test
     void successfulToRetrieveHistoryWhenThereIsTransactions() {
         // Arrange
-        when(gateway.execute(1L, LocalDateTime.parse("2020-03-12T22:04:59.123"), LocalDateTime.parse("2020-03-12T22:04:59.456")))
+        when(gateway.execute(1L, LocalDateTime.parse("2020-03-12T22:04:59.123"), LocalDateTime.parse("2020-03-12T22:04:59.456"), 0, 1, "createdAt:asc"))
                 .thenReturn(mockFindTransactionsByWalletIdAndPeriodGatewayOut());
 
         // Act
