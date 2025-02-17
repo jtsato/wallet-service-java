@@ -6,7 +6,6 @@ import io.github.jtsato.walletservice.core.common.paging.PageImpl;
 import io.github.jtsato.walletservice.core.common.paging.Pageable;
 import io.github.jtsato.walletservice.core.domains.transactions.model.Transaction;
 import io.github.jtsato.walletservice.core.domains.wallet.xcutting.FindTransactionsByWalletIdAndPeriodGateway;
-
 import io.github.jtsato.walletservice.infra.common.ListMapper;
 import io.github.jtsato.walletservice.infra.common.PageRequestHelper;
 import lombok.RequiredArgsConstructor;

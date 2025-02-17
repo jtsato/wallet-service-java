@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("Find Transactions By Wallet Id And Period Provider Test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
-@Import(FindTransactionsByWalletIdAndPeriodProviderTest.class)
+@Import(FindTransactionsByWalletIdAndPeriodProvider.class)
 @Sql("FindTransactionsByWalletIdAndPeriodProviderTest.sql")
 class FindTransactionsByWalletIdAndPeriodProviderTest {
 
@@ -41,13 +41,12 @@ class FindTransactionsByWalletIdAndPeriodProviderTest {
 
         assertThat(transactions.getPageable().getPage()).isZero();
         assertThat(transactions.getPageable().getSize()).isEqualTo(10);
-        assertThat(transactions.getPageable().getSize()).isEqualTo(10);
         assertThat(transactions.getPageable().getTotalPages()).isOne();
-        assertThat(transactions.getPageable().getNumberOfElements()).isOne();
-        assertThat(transactions.getPageable().getTotalOfElements()).isOne();
+        assertThat(transactions.getPageable().getNumberOfElements()).isEqualTo(2);
+        assertThat(transactions.getPageable().getTotalOfElements()).isEqualTo(2L);
 
         assertThat(transactions.getContent()).isNotEmpty();
-        assertThat(transactions.getContent().size()).isOne();
+        assertThat(transactions.getContent()).hasSize(2);
 
         final Transaction transaction = transactions.getContent().getFirst();
         assertThat(transaction.id()).isEqualTo(1L);
@@ -56,6 +55,6 @@ class FindTransactionsByWalletIdAndPeriodProviderTest {
         assertThat(transaction.type()).isEqualTo(Type.DEPOSIT);
         assertThat(transaction.createdAt()).isEqualTo(LocalDateTime.parse("2025-02-12T22:04:59.123"));
 
-        assertThat(transactionRepository.count()).isEqualTo(1L);
+        assertThat(transactionRepository.count()).isEqualTo(2);
     }
 }

@@ -112,6 +112,8 @@
         <dependency>
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-jpa</artifactId>
+            <version>${querydsl.version}</version>
+            <classifier>jakarta</classifier>
         </dependency>
         <dependency>
             <groupId>com.querydsl</groupId>
@@ -191,18 +193,6 @@
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
                         </path>
-                        <!--
-                        <path>
-                            <groupId>org.hibernate.orm</groupId>
-                            <artifactId>hibernate-jpamodelgen</artifactId>
-                            <version>${hibernate-jpamodelgen.version}</version>
-                        </path>
-                        <path>
-                            <groupId>com.cosium.spring.data</groupId>
-                            <artifactId>spring-data-jpa-entity-graph-generator</artifactId>
-                            <version>${spring-data-jpa-entity-graph.version}</version>
-                        </path>
-                        -->
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>

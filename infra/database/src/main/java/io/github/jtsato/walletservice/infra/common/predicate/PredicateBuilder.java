@@ -1,9 +1,9 @@
 package io.github.jtsato.bookstore.dataprovider.common.predicate;
 
-import java.util.List;
-
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
+
+import java.util.List;
 
 /**
  * @author Jorge Takeshi Sato
