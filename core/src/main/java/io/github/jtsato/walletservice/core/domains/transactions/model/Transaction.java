@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Generated
-public record Transaction (
+public record Transaction(
     Long id,
     Wallet wallet,
     BigDecimal amount,
