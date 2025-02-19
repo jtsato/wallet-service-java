@@ -10,7 +10,6 @@ import org.springframework.data.domain.Sort.Order;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Jorge Takeshi Sato
