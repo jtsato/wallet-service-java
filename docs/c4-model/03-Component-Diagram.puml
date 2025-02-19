@@ -18,17 +18,17 @@ System_Boundary(walletservice, "Wallet Service") {
     Container_Boundary(restEntrypoint, "REST Entrypoint") {
         Container(createWalletController, "Create Wallet Controller", "Component: @RestController", "Handles wallet creation requests")
         Container(retrieveBalanceController, "Retrieve Balance Controller", "Component: @RestController", "Handles balance retrieval requests")
-        Container(depositFundsController, "Deposit Funds Controller", "Component: @RestController", "Handles deposit requests")
-        Container(withdrawFundsController, "Withdraw Funds Controller", "Component: @RestController", "Handles withdrawal requests")
-        Container(transferFundsController, "Transfer Funds Controller", "Component: @RestController", "Handles transfer requests")
+        Container(depositFundsController, "Deposit Controller", "Component: @RestController", "Handles deposit requests")
+        Container(withdrawFundsController, "Withdraw Controller", "Component: @RestController", "Handles withdrawal requests")
+        Container(transferFundsController, "Transfer Controller", "Component: @RestController", "Handles transfer requests")
     }
     
     Container_Boundary(coreBusiness, "Core Business") {
         Container(createWalletUseCase, "Create Wallet UseCase", "Component: @Service", "Handles wallet creation logic")
         Container(retrieveBalanceUseCase, "Retrieve Balance UseCase", "Component: @Service", "Handles balance retrieval logic")
-        Container(depositFundsUseCase, "Deposit Funds UseCase", "Component: @Service", "Handles deposits")
-        Container(withdrawFundsUseCase, "Withdraw Funds UseCase", "Component: @Service", "Handles withdrawals")
-        Container(transferFundsUseCase, "Transfer Funds UseCase", "Component: @Service", "Handles transfers")
+        Container(depositFundsUseCase, "Deposit UseCase", "Component: @Service", "Handles deposits")
+        Container(withdrawFundsUseCase, "Withdraw UseCase", "Component: @Service", "Handles withdrawals")
+        Container(transferFundsUseCase, "Transfer UseCase", "Component: @Service", "Handles transfers")
     }
     
     Container_Boundary(infrastructure, "Infrastructure") {
