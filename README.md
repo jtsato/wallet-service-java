@@ -77,7 +77,7 @@ curl -X POST "http://localhost:8081/v1/wallets" \
 -H "accept: */*" \
 -H "Accept-Language: pt_BR" \
 -H "Content-Type: application/json" \
--d '{"userId": "123"}'
+-d '{"userId": "purple"}'
 ```
 
 ### 2. Retrieve Balance: Retrieve the current balance of a user's wallet.
@@ -100,7 +100,7 @@ curl -X POST "http://localhost:8081/v1/wallets/{walletId}/deposits" \
 -H "accept: */*" \
 -H "Accept-Language: pt_BR" \
 -H "Content-Type: application/json" \
--d '{"destinationWalletId": 101, "amount": 100.50}'
+-d '{"amount": 100.50}'
 ```
 
 ### 5. Withdraw Funds: Enable users to withdraw money from their wallets.
@@ -118,7 +118,7 @@ curl -X POST "http://localhost:8081/v1/wallets/{originWalletId}/transfers" \
 -H "accept: */*" \
 -H "Accept-Language: pt_BR" \
 -H "Content-Type: application/json" \
--d '{"targetWalletId": "456", "amount": 25.00}'
+-d '{"destinationWalletId": 2, "amount": 25.00}'
 ```
 
 ## Solution Structure
