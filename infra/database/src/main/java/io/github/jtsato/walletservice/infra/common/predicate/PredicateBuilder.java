@@ -1,4 +1,4 @@
-package io.github.jtsato.bookstore.dataprovider.common.predicate;
+package io.github.jtsato.walletservice.infra.common.predicate;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;

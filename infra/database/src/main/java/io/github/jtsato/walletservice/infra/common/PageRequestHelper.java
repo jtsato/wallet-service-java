@@ -40,9 +40,9 @@ public class PageRequestHelper {
 
         final List<String> parameters = Arrays.stream(StringUtils.split(orderBy, FIELD_DELIMITER))
                                               .map(element -> StringUtils.substringBefore(element, DELIMITER))
-                                              .collect(Collectors.toList());
+                                              .toList();
 
-        return Sort.by(parameters.stream().map(propertyName -> getOrder(propertyName, orderBy)).collect(Collectors.toList()));
+        return Sort.by(parameters.stream().map(propertyName -> getOrder(propertyName, orderBy)).toList());
     }
 
     private static Order getOrder(final String propertyName, final String orderBy) {

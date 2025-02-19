@@ -19,30 +19,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class ByPassSecurityConfiguration  {
 
-    /*
-    @Bean
-    public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity)
-        throws Exception {
-        httpSecurity
-                .csrf()
-                .disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeHttpRequests()
-                .requestMatchers("/**")
-                .permitAll()
-                .anyRequest()
-                .anonymous();
-
-        httpSecurity
-                .headers()
-                .frameOptions()
-                .sameOrigin();
-
-        return httpSecurity.build();
-    }
-    */
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity

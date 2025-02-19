@@ -1,4 +1,4 @@
-package io.github.jtsato.bookstore.dataprovider.common.predicate;
+package io.github.jtsato.walletservice.infra.common.predicate;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.EntityPathBase;
@@ -11,7 +11,7 @@ public abstract class AbstractPredicateBuilderImpl<P extends EntityPathBase<?>, 
 
     protected final P entityPath;
 
-    public AbstractPredicateBuilderImpl(final P entityPath) {
+    protected AbstractPredicateBuilderImpl(final P entityPath) {
         this.entityPath = entityPath;
     }
 

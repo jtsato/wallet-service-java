@@ -11,7 +11,6 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Getter
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
