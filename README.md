@@ -100,7 +100,7 @@ curl -X POST "http://localhost:8081/v1/wallets/{walletId}/deposits" \
 -H "accept: */*" \
 -H "Accept-Language: pt_BR" \
 -H "Content-Type: application/json" \
--d '{"amount": 100.50}'
+-d '{"destinationWalletId": 101, "amount": 100.50}'
 ```
 
 ### 5. Withdraw Funds: Enable users to withdraw money from their wallets.

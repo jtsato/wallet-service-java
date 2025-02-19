@@ -1,4 +1,4 @@
-package io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.deposit;
+package io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.withdraw;
 
 import io.github.jtsato.walletservice.entrypoint.rest.common.HttpStatusConstants;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.WalletResponse;
@@ -7,13 +7,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "Transactions")
-@FunctionalInterface
-public interface DepositApiMethod {
+public interface WithdrawApiMethod {
 
-    @Operation(summary = "Deposit value in wallet")
+    @Operation(summary = "Withdraw value from wallet")
 
     @Parameter(name = "Accept-Language",
             example = "pt_BR",
@@ -29,5 +26,5 @@ public interface DepositApiMethod {
             @ApiResponse(responseCode = HttpStatusConstants.INTERNAL_SERVER_ERROR_500, description = HttpStatusConstants.INTERNAL_SERVER_ERROR_500_MESSAGE),
     })
 
-    WalletResponse execute(final Long walletId, final DepositRequest depositRequest);
+    WalletResponse execute(final Long walletId, final WithdrawRequest withdrawRequest);
 }

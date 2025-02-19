@@ -1,4 +1,4 @@
-package io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.deposit;
+package io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.withdraw;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,10 +12,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public final class DepositRequest implements Serializable {
+public class WithdrawRequest implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = -5882249634089711164L;
+    private static final long serialVersionUID = 1913943663663663663L;
 
     private String amount;
 }
