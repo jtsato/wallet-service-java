@@ -43,7 +43,7 @@ class CreateWalletUseCaseTest {
         assertThat(wallet).isNotNull();
         assertThat(wallet.id()).isEqualTo(1L);
         assertThat(wallet.userId()).isEqualTo("1001");
-        assertThat(wallet.balance()).isEqualTo(BigDecimal.ZERO);
+        assertThat(wallet.balance()).isEqualByComparingTo(BigDecimal.ZERO);
         assertThat(wallet.createdAt()).isEqualTo(LocalDateTime.parse("2020-03-12T22:04:59.123"));
         assertThat(wallet.updatedAt()).isEqualTo(LocalDateTime.parse("2020-03-12T22:04:59.123"));
     }

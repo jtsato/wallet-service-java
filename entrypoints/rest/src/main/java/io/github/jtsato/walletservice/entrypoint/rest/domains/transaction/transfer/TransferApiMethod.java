@@ -1,6 +1,5 @@
 package io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.transfer;
 
-import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 import io.github.jtsato.walletservice.entrypoint.rest.common.HttpStatusConstants;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.WalletResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,7 +7,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Transactions")
+@FunctionalInterface
 public interface TransferApiMethod {
 
     @Operation(summary = "Transfer value between wallets")
@@ -27,5 +29,5 @@ public interface TransferApiMethod {
             @ApiResponse(responseCode = HttpStatusConstants.INTERNAL_SERVER_ERROR_500, description = HttpStatusConstants.INTERNAL_SERVER_ERROR_500_MESSAGE),
     })
 
-    WalletResponse execute(final Long originWalletId, final Long destinationWalletId, final TransferRequest transferRequest);
+    WalletResponse execute(final Long originWalletId, final TransferRequest transferRequest);
 }

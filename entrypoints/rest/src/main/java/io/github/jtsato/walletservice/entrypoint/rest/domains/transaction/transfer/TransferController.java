@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("v1/wallets/{originWalletId}/transfers")
-public class TransferController {
+public class TransferController implements TransferApiMethod {
     
     private static final Logger log = LoggerFactory.getLogger(TransferController.class);
 

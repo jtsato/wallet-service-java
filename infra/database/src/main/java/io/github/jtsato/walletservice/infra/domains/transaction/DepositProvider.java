@@ -5,7 +5,6 @@ import io.github.jtsato.walletservice.core.domains.transactions.model.Transactio
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.xcutting.DepositGateway;
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 import io.github.jtsato.walletservice.core.exception.NotFoundException;
-import io.github.jtsato.walletservice.infra.domains.wallet.GetWalletByIdProvider;
 import io.github.jtsato.walletservice.infra.domains.wallet.UpdateWalletByIdProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,9 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class DepositProvider implements DepositGateway {
 
-    private final GetWalletByIdProvider getWalletByIdProvider;
-    private final GetLocalDateTime getLocalDateTime;
     private final RegisterTransactionProvider registerTransactionProvider;
+    private final GetLocalDateTime getLocalDateTime;
     private final UpdateWalletByIdProvider updateWalletByIdProvider;
 
     @Override

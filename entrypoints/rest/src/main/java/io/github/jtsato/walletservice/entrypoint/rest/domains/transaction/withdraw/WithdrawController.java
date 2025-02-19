@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("v1/wallets/{walletId}/withdraws")
-public class WithdrawController {
+public class WithdrawController implements WithdrawApiMethod {
     
     private static final Logger log = LoggerFactory.getLogger(WithdrawController.class);
 

@@ -48,7 +48,7 @@ class UpdateWalletByIdProviderTest {
         assertThat(wallet).isNotNull();
         assertThat(wallet.id()).isEqualTo(currentWallet.id());
         assertThat(wallet.userId()).isEqualTo("black");
-        assertThat(wallet.balance()).isEqualTo(new BigDecimal("2.02"));
+        assertThat(wallet.balance()).isEqualByComparingTo(new BigDecimal("2.02"));
         assertThat(wallet.createdAt()).isEqualTo(LocalDateTime.parse("2025-02-13T00:00:01.000"));
         assertThat(wallet.updatedAt()).isEqualTo(LocalDateTime.parse("2025-02-12T22:04:59.456"));
         assertThat(walletRepository.count()).isEqualTo(1L);

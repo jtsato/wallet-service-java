@@ -40,7 +40,7 @@ class RegisterWalletProviderTest {
         assertThat(wallet).isNotNull();
         assertThat(wallet.id()).isNotNull();
         assertThat(wallet.userId()).isEqualTo("red");
-        assertThat(wallet.balance()).isEqualTo(BigDecimal.ZERO);
+        assertThat(wallet.balance()).isEqualByComparingTo(BigDecimal.ZERO);
         assertThat(wallet.createdAt()).isEqualTo(LocalDateTime.parse("2025-02-12T22:04:59.123"));
         assertThat(wallet.updatedAt()).isEqualTo(LocalDateTime.parse("2025-02-12T22:04:59.123"));
         assertThat(walletRepository.count()).isEqualTo(1L);
