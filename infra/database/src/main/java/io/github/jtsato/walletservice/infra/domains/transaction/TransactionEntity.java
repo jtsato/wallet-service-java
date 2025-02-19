@@ -43,6 +43,10 @@ public class TransactionEntity implements Serializable {
     @Column(name = "TYPE_", nullable = false)
     private String type;
 
+    @JoinColumn(name = "DESTINATION_WALLET_ID", foreignKey = @ForeignKey(name = "FK_TRANSACTIONS_DESTINATION_WALLET_ID"))
+    @ManyToOne(fetch = FetchType.LAZY)
+    private WalletEntity destinationWallet;
+
     @Column(name = "CREATED_AT", nullable = false)
     private LocalDateTime createdAt;
 

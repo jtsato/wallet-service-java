@@ -26,7 +26,7 @@ class TransferCommandTest {
 
         final ConstraintViolationException constraintViolationException = (ConstraintViolationException) exception;
         assertThat(constraintViolationException.getConstraintViolations()).hasSize(3);
-        assertThat(constraintViolationException.getMessage()).contains("sourceWalletId: validation.source.wallet.id.null");
+        assertThat(constraintViolationException.getMessage()).contains("originWalletId: validation.origin.wallet.id.null");
         assertThat(constraintViolationException.getMessage()).contains("destinationWalletId: validation.destination.wallet.id.null");
         assertThat(constraintViolationException.getMessage()).contains("amount: validation.transaction.transfer.amount.null");
     }
@@ -37,7 +37,7 @@ class TransferCommandTest {
 
         // Arrange
         // Act
-        final Exception exception = Assertions.assertThrows(Exception.class, () -> new TransferCommand(0L, 0L, BigDecimal.valueOf(0)));
+        final Exception exception = Assertions.assertThrows(Exception.class, () -> new TransferCommand(0L, 0L, "0"));
 
         // Assert
         assertThat(exception).isInstanceOf(ConstraintViolationException.class);

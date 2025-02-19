@@ -46,13 +46,17 @@ public class FindTransactionsByWalletIdAndPeriodProvider implements FindTransact
     }
 
     private BooleanExpression buildPredicate(final Long walletId, final LocalDateTime startDate, final LocalDateTime endDate) {
-        BooleanExpression expression = QTransactionEntity.transactionEntity.wallet.id.eq(walletId);
+
+        final QTransactionEntity entity = QTransactionEntity.transactionEntity;
+        BooleanExpression expression = entity.wallet.id.eq(walletId).or(entity.destinationWallet.id.eq(walletId));
+
         if (startDate != null) {
-            expression = expression.and(QTransactionEntity.transactionEntity.createdAt.goe(startDate));
+            expression = expression.and(entity.createdAt.goe(startDate));
         }
         if (endDate != null) {
-            expression = expression.and(QTransactionEntity.transactionEntity.createdAt.loe(endDate));
+            expression = expression.and(entity.createdAt.loe(endDate));
         }
+
         return expression;
     }
 

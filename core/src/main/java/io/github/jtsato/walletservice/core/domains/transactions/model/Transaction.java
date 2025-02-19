@@ -14,6 +14,7 @@ public record Transaction(
     Wallet wallet,
     BigDecimal amount,
     Type type,
+    Wallet destinationWallet,
     LocalDateTime createdAt)
     implements Serializable {
 

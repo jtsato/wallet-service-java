@@ -2,16 +2,17 @@ package io.github.jtsato.walletservice.core.domains.transactions.usecase.deposit
 
 import io.github.jtsato.walletservice.core.common.GetLocalDateTime;
 import io.github.jtsato.walletservice.core.domains.transactions.model.Type;
+import io.github.jtsato.walletservice.core.domains.transactions.usecase.xcutting.DepositGateway;
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 
 import io.github.jtsato.walletservice.core.domains.transactions.model.Transaction;
 import io.github.jtsato.walletservice.core.domains.wallet.xcutting.GetWalletByIdGateway;
-import io.github.jtsato.walletservice.core.domains.wallet.xcutting.RegisterTransactionGateway;
-import io.github.jtsato.walletservice.core.domains.wallet.xcutting.UpdateWalletByIdGateway;
 import io.github.jtsato.walletservice.core.exception.NotFoundException;
 import jakarta.inject.Named;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -24,8 +25,7 @@ public class DepositUseCaseImpl implements DepositUseCase {
 
     private final GetWalletByIdGateway getWalletByIdGateway;
     private final GetLocalDateTime getLocalDateTime;
-    private final RegisterTransactionGateway registerTransactionGateway;
-    private final UpdateWalletByIdGateway updateWalletByIdGateway;
+    private final DepositGateway depositGateway;
 
     @Override
     public Wallet execute(final DepositCommand command) {
@@ -37,10 +37,10 @@ public class DepositUseCaseImpl implements DepositUseCase {
         }
 
         final Wallet currentWallet = optional.get();
+        final LocalDateTime createdAt = getLocalDateTime.now();
+        final BigDecimal amount = new BigDecimal(command.getAmount());
+        final Transaction transaction = new Transaction(null, currentWallet, amount, Type.DEPOSIT, null, createdAt);
 
-        final Transaction transaction = registerTransactionGateway.execute(new Transaction(null, currentWallet, command.getAmount(), Type.DEPOSIT, getLocalDateTime.now()));
-        final Wallet wallet = currentWallet.withBalance(currentWallet.balance().add(transaction.amount())).withUpdatedAt(getLocalDateTime.now());
-
-        return updateWalletByIdGateway.execute(wallet).orElseThrow(() -> new NotFoundException("validation.wallet.id.notfound", String.valueOf(currentWallet.id())));
+        return depositGateway.execute(currentWallet, transaction);
     }
 }

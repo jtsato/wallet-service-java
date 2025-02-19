@@ -27,9 +27,9 @@ public class WithdrawCommand extends SelfValidating<WithdrawCommand> implements 
 
     @NotNull(message = "validation.transaction.withdraw.amount.null")
     @DecimalMin(value = "0.01", message = "validation.transaction.withdraw.amount.invalid")
-    private final BigDecimal amount;
+    private final String amount;
 
-    public WithdrawCommand(final Long walletId, final BigDecimal amount) {
+    public WithdrawCommand(final Long walletId, final String amount) {
         this.walletId = walletId;
         this.amount = amount;
         validateSelf();

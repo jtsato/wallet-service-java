@@ -18,10 +18,10 @@ import static org.mockito.Mockito.when;
 class CreateWalletUseCaseTest {
 
     @Mock private final GetLocalDateTime getLocalDateTime = Mockito.mock(GetLocalDateTime.class);
-    @Mock private final RegisterWalletGateway registerWalletGateway = Mockito.mock(RegisterWalletGateway.class);
+    @Mock private final RegisterWalletGateway gateway = Mockito.mock(RegisterWalletGateway.class);
 
     @InjectMocks
-    private final CreateWalletUseCaseImpl createWalletUseCase = new CreateWalletUseCaseImpl(getLocalDateTime, registerWalletGateway);
+    private final CreateWalletUseCase useCase = new CreateWalletUseCaseImpl(getLocalDateTime, gateway);
 
     @DisplayName("Successfully to create wallet")
     @Test
@@ -33,11 +33,11 @@ class CreateWalletUseCaseTest {
 
         final CreateWalletCommand command = new CreateWalletCommand("1001");
 
-        when(registerWalletGateway.execute(buildWalletToBeRegistered()))
+        when(gateway.execute(buildWalletToBeRegistered()))
                 .thenReturn(buildRegisteredWallet());
 
         // Act
-        final Wallet wallet = createWalletUseCase.execute(command);
+        final Wallet wallet = useCase.execute(command);
 
         // Assert
         assertThat(wallet).isNotNull();

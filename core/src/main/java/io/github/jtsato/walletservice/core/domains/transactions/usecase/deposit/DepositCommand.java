@@ -11,7 +11,6 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Getter
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -27,9 +26,9 @@ public class DepositCommand extends SelfValidating<DepositCommand> implements Se
 
     @NotNull(message = "validation.transaction.deposit.amount.null")
     @DecimalMin(value = "0.01", message = "validation.transaction.deposit.amount.invalid")
-    private final BigDecimal amount;
+    private final String amount;
 
-    public DepositCommand(final Long walletId, final BigDecimal amount) {
+    public DepositCommand(final Long walletId, final String amount) {
         this.walletId = walletId;
         this.amount = amount;
         validateSelf();

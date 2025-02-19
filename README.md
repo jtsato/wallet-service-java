@@ -114,7 +114,7 @@ curl -X POST "http://localhost:8081/v1/wallets/{walletId}/withdraws" \
 
 ### 6. Transfer Funds: Facilitate the transfer of money between user wallets.
 ```
-curl -X POST "http://localhost:8081/v1/wallets/{sourceWalletId}/transfers" \
+curl -X POST "http://localhost:8081/v1/wallets/{originWalletId}/transfers" \
 -H "accept: */*" \
 -H "Accept-Language: pt_BR" \
 -H "Content-Type: application/json" \

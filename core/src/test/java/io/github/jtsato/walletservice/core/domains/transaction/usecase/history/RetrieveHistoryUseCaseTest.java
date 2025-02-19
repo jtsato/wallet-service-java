@@ -76,7 +76,7 @@ class RetrieveHistoryUseCaseTest {
         final Page<Transaction> pageOfTransactions = new Page<>() {
             @Override
             public List<Transaction> getContent() {
-                return Collections.singletonList(new Transaction(1L, new Wallet(1L, "purple", new BigDecimal("100.01"), LocalDateTime.parse("2020-03-12T22:04:59.123"), LocalDateTime.parse("2020-03-12T22:04:59.456")), new BigDecimal("100.01"), Type.DEPOSIT, LocalDateTime.parse("2020-04-12T22:04:59.123")));
+                return Collections.singletonList(new Transaction(1L, new Wallet(1L, "purple", new BigDecimal("100.01"), LocalDateTime.parse("2020-03-12T22:04:59.123"), LocalDateTime.parse("2020-03-12T22:04:59.456")), new BigDecimal("100.01"), Type.DEPOSIT, null, LocalDateTime.parse("2020-04-12T22:04:59.123")));
             }
 
             @Override
@@ -109,6 +109,7 @@ class RetrieveHistoryUseCaseTest {
         assertThat(transaction.wallet().updatedAt()).isEqualTo(LocalDateTime.parse("2020-03-12T22:04:59.456"));
         assertThat(transaction.amount()).isEqualTo(new BigDecimal("100.01"));
         assertThat(transaction.type()).isEqualTo(Type.DEPOSIT);
+        assertThat(transaction.destinationWallet()).isNull();
         assertThat(transaction.createdAt()).isEqualTo(LocalDateTime.parse("2020-04-12T22:04:59.123"));
     }
 
@@ -117,7 +118,7 @@ class RetrieveHistoryUseCaseTest {
         return new Page<>() {
             @Override
             public List<Transaction> getContent() {
-                return Collections.singletonList(new Transaction(1L, wallet, new BigDecimal("100.01"), Type.DEPOSIT, LocalDateTime.parse("2020-04-12T22:04:59.123")));
+                return Collections.singletonList(new Transaction(1L, wallet, new BigDecimal("100.01"), Type.DEPOSIT, null, LocalDateTime.parse("2020-04-12T22:04:59.123")));
             }
 
             @Override

@@ -22,18 +22,18 @@ public class TransferCommand extends SelfValidating<TransferCommand> implements 
     @Serial
     private static final long serialVersionUID = -1913943663663663663L;
 
-    @NotNull(message = "validation.source.wallet.id.null")
-    private final Long sourceWalletId;
+    @NotNull(message = "validation.origin.wallet.id.null")
+    private final Long originWalletId;
 
     @NotNull(message = "validation.destination.wallet.id.null")
     private final Long destinationWalletId;
 
     @NotNull(message = "validation.transaction.transfer.amount.null")
     @DecimalMin(value = "0.01", message = "validation.transaction.transfer.amount.invalid")
-    private final BigDecimal amount;
+    private final String amount;
 
-    public TransferCommand(final Long sourceWalletId, final Long destinationWalletId, final BigDecimal amount) {
-        this.sourceWalletId = sourceWalletId;
+    public TransferCommand(final Long originWalletId, final Long destinationWalletId, final String amount) {
+        this.originWalletId = originWalletId;
         this.destinationWalletId = destinationWalletId;
         this.amount = amount;
         validateSelf();

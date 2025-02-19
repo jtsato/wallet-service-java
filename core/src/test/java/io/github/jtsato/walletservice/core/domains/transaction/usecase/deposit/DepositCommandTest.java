@@ -36,7 +36,7 @@ class DepositCommandTest {
 
         // Arrange
         // Act
-        final Exception exception = Assertions.assertThrows(Exception.class, () -> new DepositCommand(0L, BigDecimal.valueOf(0)));
+        final Exception exception = Assertions.assertThrows(Exception.class, () -> new DepositCommand(0L, "0"));
 
         // Assert
         assertThat(exception).isInstanceOf(ConstraintViolationException.class);
