@@ -5,9 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.deposit.DepositCommand;
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.deposit.DepositUseCase;
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
+import io.github.jtsato.walletservice.core.exception.NotFoundException;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.deposit.DepositController;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.deposit.DepositRequest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -62,6 +65,11 @@ class DepositControllerTest {
         }
     }
 
+    @BeforeEach
+    void setUp() {
+        reset(depositUseCase, webRequest);
+    }
+
     @DisplayName("Successful to deposit an amount")
     @Test
     void successfulToDepositAnAmount() throws Exception {
@@ -77,19 +85,88 @@ class DepositControllerTest {
         // Assert
         mockMvc.perform(post("/v1/wallets/1/deposits")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(buildDepositRequest()))
+                            .content(buildDepositRequest(new DepositRequest("100.01"))))
                .andDo(print())
                .andExpect(status().isCreated())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.id", is(1)))
-               .andExpect(jsonPath("$.userId", is("yellow")))
-               .andExpect(jsonPath("$.balance", is(200.01)))
-               .andExpect(jsonPath("$.createdAt", is("2025-02-14T22:04:59.123")))
-               .andExpect(jsonPath("$.updatedAt", is("2025-02-14T22:04:59.456")));
+                .andExpect(jsonPath("$.userId", is("yellow")))
+                .andExpect(jsonPath("$.balance", is(200.01)))
+                .andExpect(jsonPath("$.createdAt", is("2025-02-14T22:04:59.123")))
+                .andExpect(jsonPath("$.updatedAt", is("2025-02-14T22:04:59.456")));
     }
 
-    private String buildDepositRequest() throws JsonProcessingException {
-        final DepositRequest request = new DepositRequest("100.01");
+    @DisplayName("Fail to deposit when amount is invalid")
+    @Test
+    void shouldReturnBadRequestWhenAmountIsInvalid() throws Exception {
+
+        // Arrange
+        when(webRequest.getPath()).thenReturn("/v1/wallets/1/deposits");
+
+        // Act
+        // Assert
+        mockMvc.perform(post("/v1/wallets/1/deposits")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(buildDepositRequest(new DepositRequest("-10"))))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.message", is("The deposit amount is invalid!")))
+                .andExpect(jsonPath("$.path", is("/v1/wallets/1/deposits")));
+
+        verifyNoInteractions(depositUseCase);
+    }
+
+    @DisplayName("Fail to deposit when wallet does not exist")
+    @Test
+    void shouldReturnNotFoundWhenWalletDoesNotExist() throws Exception {
+
+        // Arrange
+        when(webRequest.getEmail()).thenReturn("joe.doe.one@xyz.com");
+        when(webRequest.getFullName()).thenReturn("Joe Doe");
+        when(webRequest.getPath()).thenReturn("/v1/wallets/1/deposits");
+
+        final DepositCommand command = new DepositCommand(1L, "100.01");
+        when(depositUseCase.execute(command)).thenThrow(new NotFoundException("validation.wallet.id.notfound", "1"));
+
+        // Act
+        // Assert
+        mockMvc.perform(post("/v1/wallets/1/deposits")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(buildDepositRequest(new DepositRequest("100.01"))))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.message", is("The wallet with the identifier '1' was not found!")))
+                .andExpect(jsonPath("$.path", is("/v1/wallets/1/deposits")));
+
+        verify(depositUseCase, times(1)).execute(command);
+        verifyNoMoreInteractions(depositUseCase);
+    }
+
+    @DisplayName("Fail to deposit when amount is invalid using pt_BR locale")
+    @Test
+    void shouldReturnLocalizedMessageWhenAmountIsInvalid() throws Exception {
+
+        // Arrange
+        when(webRequest.getPath()).thenReturn("/v1/wallets/1/deposits");
+
+        // Act
+        // Assert
+        mockMvc.perform(post("/v1/wallets/1/deposits")
+                        .header(HttpHeaders.ACCEPT_LANGUAGE, "pt-BR")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(buildDepositRequest(new DepositRequest("-10"))))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.message", is("O valor do depósito é inválido!")))
+                .andExpect(jsonPath("$.path", is("/v1/wallets/1/deposits")));
+
+        verifyNoInteractions(depositUseCase);
+    }
+
+    private String buildDepositRequest(final DepositRequest request) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(request);
     }
 }

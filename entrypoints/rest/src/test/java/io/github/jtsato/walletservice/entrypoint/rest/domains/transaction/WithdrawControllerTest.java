@@ -5,9 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.withdraw.WithdrawCommand;
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.withdraw.WithdrawUseCase;
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
+import io.github.jtsato.walletservice.core.exception.NotFoundException;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.withdraw.WithdrawController;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.withdraw.WithdrawRequest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -62,6 +64,11 @@ class WithdrawControllerTest {
         }
     }
 
+    @BeforeEach
+    void setUp() {
+        reset(withdrawUseCase, webRequest);
+    }
+
     @DisplayName("Successful to withdraw an amount")
     @Test
     void successfulToWithdrawAnAmount() throws Exception {
@@ -86,6 +93,34 @@ class WithdrawControllerTest {
                 .andExpect(jsonPath("$.balance", is(100.01)))
                 .andExpect(jsonPath("$.createdAt", is("2025-02-14T22:04:59.123")))
                 .andExpect(jsonPath("$.updatedAt", is("2025-02-14T22:04:59.456")));
+    }
+
+    @DisplayName("Fail to withdraw when wallet has insufficient balance")
+    @Test
+    void shouldReturnNotFoundWhenWalletHasInsufficientBalance() throws Exception {
+
+        // Arrange
+        when(webRequest.getEmail()).thenReturn("joe.doe.one@xyz.com");
+        when(webRequest.getFullName()).thenReturn("Joe Doe");
+        when(webRequest.getPath()).thenReturn("/v1/wallets/1/withdraws");
+
+        final WithdrawCommand command = new WithdrawCommand(1L, "100.01");
+        when(withdrawUseCase.execute(command)).thenThrow(new NotFoundException("validation.wallet.insufficient.balance", "1"));
+
+        // Act
+        // Assert
+        mockMvc.perform(post("/v1/wallets/1/withdraws")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(buildWithdrawRequest()))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.status", is(404)))
+                .andExpect(jsonPath("$.message", is("The wallet does not have enough balance to perform this transaction!")))
+                .andExpect(jsonPath("$.path", is("/v1/wallets/1/withdraws")));
+
+        verify(withdrawUseCase, times(1)).execute(command);
+        verifyNoMoreInteractions(withdrawUseCase);
     }
 
     private String buildWithdrawRequest() throws JsonProcessingException {

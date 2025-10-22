@@ -8,6 +8,7 @@ import io.github.jtsato.walletservice.core.domains.wallet.usecase.create.CreateW
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.create.CreateWalletController;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.create.CreateWalletRequest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -62,6 +63,11 @@ class CreateWalletControllerTest {
         }
     }
 
+    @BeforeEach
+    void setUp() {
+        reset(createWalletUseCase, webRequest);
+    }
+
     @DisplayName("Successful to create a wallet")
     @Test
     void successfulToCreateAWallet() throws Exception {
@@ -75,7 +81,7 @@ class CreateWalletControllerTest {
 
         // Act
         // Assert
-        mockMvc.perform(post("/v1/wallets").content(buildRequestBody()).contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE))
+        mockMvc.perform(post("/v1/wallets").content(buildRequestBody(new CreateWalletRequest("red"))).contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -89,8 +95,50 @@ class CreateWalletControllerTest {
         verifyNoMoreInteractions(createWalletUseCase);
     }
 
-    private String buildRequestBody() throws JsonProcessingException {
-        final CreateWalletRequest request = new CreateWalletRequest("red");
+    @DisplayName("Fail to create a wallet when userId is blank")
+    @Test
+    void shouldReturnBadRequestWhenUserIdIsBlank() throws Exception {
+
+        // Arrange
+        when(webRequest.getPath()).thenReturn("/v1/wallets");
+
+        // Act
+        // Assert
+        mockMvc.perform(post("/v1/wallets")
+                        .content(buildRequestBody(new CreateWalletRequest("")))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$.message", is("The user identifier is required!")))
+                .andExpect(jsonPath("$.path", is("/v1/wallets")));
+
+        verifyNoInteractions(createWalletUseCase);
+    }
+
+    @DisplayName("Fail to create a wallet when request body is missing")
+    @Test
+    void shouldReturnBadRequestWhenRequestBodyIsMissing() throws Exception {
+
+        // Arrange
+        when(webRequest.getPath()).thenReturn("/v1/wallets");
+
+        // Act
+        // Assert
+        mockMvc.perform(post("/v1/wallets")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$.message", is("The required request body is invalid!")))
+                .andExpect(jsonPath("$.path", is("/v1/wallets")));
+
+        verifyNoInteractions(createWalletUseCase);
+    }
+
+    private String buildRequestBody(final CreateWalletRequest request) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(request);
     }
 }

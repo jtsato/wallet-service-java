@@ -4,6 +4,8 @@ import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 import io.github.jtsato.walletservice.core.domains.wallet.usecase.balance.RetrieveBalanceUseCase;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.balance.RetrieveBalanceController;
+import io.github.jtsato.walletservice.core.exception.NotFoundException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -57,6 +59,11 @@ class RetrieveBalanceControllerTest {
         }
     }
 
+    @BeforeEach
+    void setUp() {
+        reset(retrieveBalanceUseCase, webRequest);
+    }
+
     @DisplayName("Successful to get balance by wallet id")
     @Test
     void successfulToRetrieveBalance() throws Exception {
@@ -76,5 +83,28 @@ class RetrieveBalanceControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.balance", is(1001.01)));
+    }
+
+    @DisplayName("Fail to get balance when wallet does not exist")
+    @Test
+    void shouldReturnNotFoundWhenWalletDoesNotExist() throws Exception {
+
+        // Arrange
+        when(webRequest.getPath()).thenReturn("/v1/wallets/1/balances");
+        when(retrieveBalanceUseCase.execute(1L)).thenThrow(new NotFoundException("validation.wallet.id.notfound", "1"));
+
+        // Act
+        // Assert
+        mockMvc.perform(get("/v1/wallets/1/balances")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$.status", is(404)))
+                .andExpect(jsonPath("$.message", is("The wallet with the identifier '1' was not found!")))
+                .andExpect(jsonPath("$.path", is("/v1/wallets/1/balances")));
+
+        verify(retrieveBalanceUseCase, times(1)).execute(1L);
+        verifyNoMoreInteractions(retrieveBalanceUseCase);
     }
 }
