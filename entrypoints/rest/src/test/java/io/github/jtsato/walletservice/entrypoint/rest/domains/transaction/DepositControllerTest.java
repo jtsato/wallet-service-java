@@ -18,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -76,8 +77,8 @@ class DepositControllerTest {
         // Act
         // Assert
         mockMvc.perform(post("/v1/wallets/1/deposits")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(buildDepositRequest()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(buildDepositRequest("100.01")))
                .andDo(print())
                .andExpect(status().isCreated())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -88,8 +89,33 @@ class DepositControllerTest {
                .andExpect(jsonPath("$.updatedAt", is("2025-02-14T22:04:59.456")));
     }
 
-    private String buildDepositRequest() throws JsonProcessingException {
-        final DepositRequest request = new DepositRequest("100.01");
+    @DisplayName("Fail to deposit an amount with invalid value in Portuguese")
+    @Test
+    void failToDepositAnAmountWithInvalidValueInPortuguese() throws Exception {
+
+        // Arrange
+        when(webRequest.getEmail()).thenReturn("joe.doe.one@xyz.com");
+        when(webRequest.getFullName()).thenReturn("Joe Doe");
+        when(webRequest.getPath()).thenReturn("/v1/wallets/1/deposits");
+
+        // Act
+        // Assert
+        mockMvc.perform(post("/v1/wallets/1/deposits")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.ACCEPT_LANGUAGE, "pt_BR")
+                        .content(buildDepositRequest("0.00")))
+               .andDo(print())
+               .andExpect(status().isBadRequest())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.timestamp").exists())
+               .andExpect(jsonPath("$.status", is(400)))
+               .andExpect(jsonPath("$.error", is("Bad Request")))
+               .andExpect(jsonPath("$.message", is("O valor do depósito é inválido!")))
+               .andExpect(jsonPath("$.path", is("/v1/wallets/1/deposits")));
+    }
+
+    private String buildDepositRequest(final String amount) throws JsonProcessingException {
+        final DepositRequest request = new DepositRequest(amount);
         return new ObjectMapper().writeValueAsString(request);
     }
 }
