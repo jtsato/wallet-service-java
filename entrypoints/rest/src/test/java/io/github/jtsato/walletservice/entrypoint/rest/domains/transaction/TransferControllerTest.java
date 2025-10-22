@@ -8,6 +8,7 @@ import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.transfer.TransferController;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.transfer.TransferRequest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -45,6 +47,11 @@ class TransferControllerTest {
 
     @Autowired
     private WebRequest webRequest;
+
+    @BeforeEach
+    void setUp() {
+        reset(transferUseCase, webRequest);
+    }
 
     @TestConfiguration
     static class TestConfig {
@@ -86,6 +93,24 @@ class TransferControllerTest {
                 .andExpect(jsonPath("$.balance", is(100)))
                 .andExpect(jsonPath("$.createdAt", is("2025-02-14T22:04:59.123")))
                 .andExpect(jsonPath("$.updatedAt", is("2025-02-14T22:04:59.456")));
+    }
+
+    @DisplayName("Fail to transfer when request has invalid values")
+    @Test
+    void failToTransferWhenRequestHasInvalidValues() throws Exception {
+
+        // Act
+        mockMvc.perform(post("/v1/wallets/1/transfers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"destinationWalletId\": null, \"amount\": \"-1\"}"))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.message", containsString("validation.destination.wallet.id.null")))
+                .andExpect(jsonPath("$.message", containsString("validation.transaction.transfer.amount.invalid")));
+
+        // Assert
+        verifyNoInteractions(transferUseCase);
     }
 
     private String buildTransferRequest() throws JsonProcessingException {
