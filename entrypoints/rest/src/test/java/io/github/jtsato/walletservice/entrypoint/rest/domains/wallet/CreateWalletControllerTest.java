@@ -89,6 +89,21 @@ class CreateWalletControllerTest {
         verifyNoMoreInteractions(createWalletUseCase);
     }
 
+    @DisplayName("Fail to create a wallet when userId is blank")
+    @Test
+    void failToCreateWalletWhenUserIdIsBlank() throws Exception {
+
+        mockMvc.perform(post("/v1/wallets").content("{\"userId\":\"\"}")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("validation.wallet.userId.blank")))
+                .andExpect(jsonPath("$.path", is("/v1/wallets")));
+
+        verifyNoInteractions(createWalletUseCase);
+    }
+
     private String buildRequestBody() throws JsonProcessingException {
         final CreateWalletRequest request = new CreateWalletRequest("red");
         return new ObjectMapper().writeValueAsString(request);
