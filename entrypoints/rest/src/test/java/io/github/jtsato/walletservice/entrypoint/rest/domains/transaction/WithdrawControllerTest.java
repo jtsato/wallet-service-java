@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.withdraw.WithdrawCommand;
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.withdraw.WithdrawUseCase;
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
+import io.github.jtsato.walletservice.core.exception.NotFoundException;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.withdraw.WithdrawController;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.withdraw.WithdrawRequest;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
@@ -24,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
@@ -42,9 +45,12 @@ class WithdrawControllerTest {
 
     @Autowired
     private WithdrawUseCase withdrawUseCase;
-    
+
     @Autowired
     private WebRequest webRequest;
+
+    @Autowired
+    private MessageSource messageSource;
     
     @TestConfiguration
     static class TestConfig {
@@ -59,6 +65,12 @@ class WithdrawControllerTest {
         @Primary
         public WebRequest mockWebRequest() {
             return Mockito.mock(WebRequest.class);
+        }
+
+        @Bean
+        @Primary
+        public MessageSource mockMessageSource() {
+            return Mockito.mock(MessageSource.class);
         }
     }
 
@@ -86,6 +98,29 @@ class WithdrawControllerTest {
                 .andExpect(jsonPath("$.balance", is(100.01)))
                 .andExpect(jsonPath("$.createdAt", is("2025-02-14T22:04:59.123")))
                 .andExpect(jsonPath("$.updatedAt", is("2025-02-14T22:04:59.456")));
+    }
+
+    @DisplayName("Fail to withdraw an amount when the wallet has insufficient balance")
+    @Test
+    void failToWithdrawWhenWalletHasInsufficientBalance() throws Exception {
+
+        // Arrange
+        when(webRequest.getPath()).thenReturn("/v1/wallets/1/withdraws");
+
+        final WithdrawCommand command = new WithdrawCommand(1L, "100.01");
+        when(withdrawUseCase.execute(command)).thenThrow(new NotFoundException("validation.wallet.insufficient.balance", "1"));
+        when(messageSource.getMessage(eq("validation.wallet.insufficient.balance"), any(Object[].class), any(Locale.class)))
+                .thenReturn("validation.wallet.insufficient.balance");
+
+        // Act
+        // Assert
+        mockMvc.perform(post("/v1/wallets/1/withdraws")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(buildWithdrawRequest()))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message", is("validation.wallet.insufficient.balance")))
+                .andExpect(jsonPath("$.status", is(404)));
     }
 
     private String buildWithdrawRequest() throws JsonProcessingException {
