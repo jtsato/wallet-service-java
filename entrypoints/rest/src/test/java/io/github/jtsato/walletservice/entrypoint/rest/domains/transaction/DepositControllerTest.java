@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.deposit.DepositCommand;
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.deposit.DepositUseCase;
+import io.github.jtsato.walletservice.core.exception.NotFoundException;
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.deposit.DepositController;
@@ -86,6 +87,29 @@ class DepositControllerTest {
                .andExpect(jsonPath("$.balance", is(200.01)))
                .andExpect(jsonPath("$.createdAt", is("2025-02-14T22:04:59.123")))
                .andExpect(jsonPath("$.updatedAt", is("2025-02-14T22:04:59.456")));
+    }
+
+    @DisplayName("Fail to deposit when wallet was not found")
+    @Test
+    void failToDepositWhenWalletWasNotFound() throws Exception {
+
+        // Arrange
+        when(webRequest.getEmail()).thenReturn("joe.doe.one@xyz.com");
+        when(webRequest.getPath()).thenReturn("/v1/wallets/1/deposits");
+
+        final DepositCommand command = new DepositCommand(1L, "100.01");
+        when(depositUseCase.execute(command)).thenThrow(new NotFoundException("validation.wallet.id.notfound", "1"));
+
+        // Act
+        // Assert
+        mockMvc.perform(post("/v1/wallets/1/deposits")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(buildDepositRequest()))
+               .andDo(print())
+               .andExpect(status().isNotFound())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.message", is("The wallet with the identifier '1' was not found!")))
+               .andExpect(jsonPath("$.path", is("/v1/wallets/1/deposits")));
     }
 
     private String buildDepositRequest() throws JsonProcessingException {
