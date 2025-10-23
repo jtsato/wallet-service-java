@@ -89,6 +89,18 @@ class CreateWalletControllerTest {
         verifyNoMoreInteractions(createWalletUseCase);
     }
 
+    @DisplayName("Fail to create a wallet with missing request body")
+    @Test
+    void failToCreateAWalletWithMissingRequestBody() throws Exception {
+
+        mockMvc.perform(post("/v1/wallets").contentType(MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("exception.request.body.is.invalid.or.missing")));
+
+        verifyNoInteractions(createWalletUseCase);
+    }
+
     private String buildRequestBody() throws JsonProcessingException {
         final CreateWalletRequest request = new CreateWalletRequest("red");
         return new ObjectMapper().writeValueAsString(request);
