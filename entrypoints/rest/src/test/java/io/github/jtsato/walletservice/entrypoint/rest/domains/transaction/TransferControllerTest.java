@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.transfer.TransferCommand;
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.transfer.TransferUseCase;
+import io.github.jtsato.walletservice.core.exception.NotFoundException;
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.transfer.TransferController;
@@ -16,14 +17,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
@@ -45,6 +49,9 @@ class TransferControllerTest {
 
     @Autowired
     private WebRequest webRequest;
+
+    @MockBean
+    private MessageSource messageSource;
 
     @TestConfiguration
     static class TestConfig {
@@ -86,6 +93,34 @@ class TransferControllerTest {
                 .andExpect(jsonPath("$.balance", is(100)))
                 .andExpect(jsonPath("$.createdAt", is("2025-02-14T22:04:59.123")))
                 .andExpect(jsonPath("$.updatedAt", is("2025-02-14T22:04:59.456")));
+    }
+
+    @DisplayName("Fail to transfer an amount if wallet was not found")
+    @Test
+    void failToTransferAnAmountIfWalletWasNotFound() throws Exception {
+
+        // Arrange
+        when(webRequest.getEmail()).thenReturn("joe.doe.one@xyz.com");
+        when(webRequest.getFullName()).thenReturn("Joe Doe");
+        when(webRequest.getPath()).thenReturn("/v1/wallets/1/transfers");
+
+        final TransferCommand command = new TransferCommand(1L, 2L, "100.01");
+        when(transferUseCase.execute(command))
+                .thenThrow(new NotFoundException("validation.wallet.id.notfound", "1"));
+
+        when(messageSource.getMessage(eq("validation.wallet.id.notfound"), any(Object[].class), any(Locale.class)))
+                .thenReturn("The wallet with the identifier '1' was not found!");
+
+        // Act
+        // Assert
+        mockMvc.perform(post("/v1/wallets/1/transfers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(buildTransferRequest()))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.message", is("The wallet with the identifier '1' was not found!")))
+                .andExpect(jsonPath("$.path", is("/v1/wallets/1/transfers")));
     }
 
     private String buildTransferRequest() throws JsonProcessingException {
