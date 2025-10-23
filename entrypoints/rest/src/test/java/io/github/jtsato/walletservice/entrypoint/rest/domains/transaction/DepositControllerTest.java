@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -88,8 +89,28 @@ class DepositControllerTest {
                .andExpect(jsonPath("$.updatedAt", is("2025-02-14T22:04:59.456")));
     }
 
+    @DisplayName("Should return bad request when amount is invalid")
+    @Test
+    void shouldReturnBadRequestWhenAmountIsInvalid() throws Exception {
+
+        // Act
+        mockMvc.perform(post("/v1/wallets/1/deposits")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(buildDepositRequest("-10")))
+               .andExpect(status().isBadRequest())
+               .andExpect(jsonPath("$.message", containsString("validation.transaction.deposit.amount.invalid")));
+
+        // Assert
+        verify(depositUseCase, never()).execute(any(DepositCommand.class));
+    }
+
     private String buildDepositRequest() throws JsonProcessingException {
         final DepositRequest request = new DepositRequest("100.01");
+        return new ObjectMapper().writeValueAsString(request);
+    }
+
+    private String buildDepositRequest(final String amount) throws JsonProcessingException {
+        final DepositRequest request = new DepositRequest(amount);
         return new ObjectMapper().writeValueAsString(request);
     }
 }
