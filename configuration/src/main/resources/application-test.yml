@@ -21,7 +21,6 @@ spring:
       add-properties: true
    jackson:
       serialization:
-         write-dates-as-timestamps: false
          fail-on-empty-beans: false
    datasource:
       url: jdbc:p6spy:h2:mem:datajpa;DB_CLOSE_ON_EXIT=FALSE # jdbc:h2:mem:datajpa

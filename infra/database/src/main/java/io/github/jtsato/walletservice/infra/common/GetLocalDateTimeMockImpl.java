@@ -1,11 +1,10 @@
 package io.github.jtsato.walletservice.infra.common;
 
 import io.github.jtsato.walletservice.core.common.GetLocalDateTime;
-import jakarta.inject.Named;
 
 import java.time.LocalDateTime;
 
-@Named
+/** Not component-scanned; use {@code @Import} in tests that need a fixed clock. */
 public class GetLocalDateTimeMockImpl implements GetLocalDateTime {
 
     @Override
