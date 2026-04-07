@@ -29,11 +29,13 @@
         <pitest-maven.version>1.18.0</pitest-maven.version>
         <pitest-junit5-plugin.version>1.2.1</pitest-junit5-plugin.version>
         <sonar.organization>jtsato</sonar.organization>
+        <sonar.projectKey>jtsato_wallet-service</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.projectName>Wallets Service</sonar.projectName>
         <lombok.version>1.18.44</lombok.version>
         <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
         <jacoco.agent.version>0.8.14</jacoco.agent.version>
+        <sonar-maven-plugin.version>5.5.0.6356</sonar-maven-plugin.version>
     </properties>
 
     <modules>
@@ -73,6 +75,23 @@
     </dependencies>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${sonar-maven-plugin.version}</version>
+                    <dependencies>
+                        <!-- Scanner plugin classpath has slf4j-api but no provider; silence NOP warnings during analysis -->
+                        <dependency>
+                            <groupId>org.slf4j</groupId>
+                            <artifactId>slf4j-nop</artifactId>
+                            <version>${slf4j.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

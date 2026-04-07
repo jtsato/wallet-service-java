@@ -54,4 +54,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=jtsato_wallet-service
+        run: |
+          EXTRA=""
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            EXTRA="-Dsonar.pullrequest.base=main"
+          fi
+          mvn -B clean verify sonar:sonar ${EXTRA}
