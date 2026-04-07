@@ -23,13 +23,13 @@
 
 ## Prerequisites
 
-* JDK 22
+* JDK 25 (current LTS baseline for this project; JDK 26 is the latest feature release if you prefer)
 * This project uses Lombok, so enable annotation processing in your IDE
 
 ## Technology Stack
-* Language: [`Java 22`](https://www.java.com/) 
+* Language: [`Java 25`](https://openjdk.org/)
 * Compilation: [`Maven`](https://maven.apache.org/)
-* Framework: [`SpringBoot`](https://spring.io/projects/spring-boot)
+* Framework: [`Spring Boot 4.0`](https://spring.io/projects/spring-boot)
 * Database: [`H2`](http://h2database.com/)
 * Type-safe queries: [`Querydsl`](http://www.querydsl.com/)
 * Entity Graph: [`JPA Entity Graph`](https://cosium.github.io/making-jpa-great-again/)

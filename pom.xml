@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.2</version>
+        <version>4.0.5</version>
         <relativePath/>
     </parent>
 
@@ -22,15 +22,18 @@
     <properties>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>22</java.version>
-        <maven.compiler.source>22</maven.compiler.source>
-        <maven.compiler.target>22</maven.compiler.target>
+        <java.version>25</java.version>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
         <junit-jupiter-engine.version>5.11.4</junit-jupiter-engine.version>
         <pitest-maven.version>1.18.0</pitest-maven.version>
         <pitest-junit5-plugin.version>1.2.1</pitest-junit5-plugin.version>
         <sonar.organization>jtsato</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.projectName>Wallets Service</sonar.projectName>
+        <lombok.version>1.18.44</lombok.version>
+        <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
+        <jacoco.agent.version>0.8.14</jacoco.agent.version>
     </properties>
 
     <modules>
@@ -50,11 +53,6 @@
             <artifactId>walletservice-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>6.2.2</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>

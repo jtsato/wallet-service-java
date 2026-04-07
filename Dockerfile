@@ -1,5 +1,5 @@
-# Set the base image to OpenJDK 22
-FROM openjdk:17-alpine
+# Java 25 LTS (Eclipse Temurin JRE)
+FROM eclipse-temurin:25-jre-alpine
 
 # Set the working directory
 WORKDIR /app
