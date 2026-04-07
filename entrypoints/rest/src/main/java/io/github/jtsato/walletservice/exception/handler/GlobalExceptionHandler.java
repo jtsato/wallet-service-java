@@ -4,9 +4,9 @@ import io.github.jtsato.walletservice.entrypoint.rest.common.HttpResponseStatus;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger log = LogManager.getLogger(GlobalExceptionHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     private final MessageSource messageSource;
 
@@ -44,6 +44,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public HttpResponseStatus handleHttpMessageNotReadableException(final HttpMessageNotReadableException exception, final Locale locale) {
+        log.debug("Request body could not be read", exception);
         final String message = messageSource.getMessage("exception.request.body.is.invalid.or.missing", null, locale);
         return buildHttpResponseStatus(HttpStatus.BAD_REQUEST, message, webRequest.getPath());
     }
@@ -87,7 +88,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public HttpResponseStatus handleException(final Exception exception, final Locale locale) {
-        log.error("Exception: {}", exception.getMessage());
+        log.error("Unexpected error handling request", exception);
         final String message = messageSource.getMessage("exception.unexpected", null, locale);
         return buildHttpResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR, message, webRequest.getPath());
     }

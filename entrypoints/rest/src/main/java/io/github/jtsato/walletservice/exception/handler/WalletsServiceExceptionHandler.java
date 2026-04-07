@@ -4,7 +4,6 @@ import io.github.jtsato.walletservice.core.exception.InvalidActionException;
 import io.github.jtsato.walletservice.core.exception.NotFoundException;
 import io.github.jtsato.walletservice.entrypoint.rest.common.HttpResponseStatus;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
-import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -55,9 +52,9 @@ public class WalletsServiceExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public HttpResponseStatus handleConstraintViolationException(final ConstraintViolationException exception, final Locale locale) {
-        final Set<ConstraintViolation<?>> violations = exception.getConstraintViolations();
-        final Collector<CharSequence, ?, String> joining = Collectors.joining(", ");
-        final String message = violations.stream().map(violation -> messageSource.getMessage(violation.getMessage(), null, locale)).collect(joining);
+        final String message = exception.getConstraintViolations().stream()
+                .map(violation -> messageSource.getMessage(violation.getMessage(), null, locale))
+                .collect(Collectors.joining(", "));
         return buildHttpResponseStatus(HttpStatus.BAD_REQUEST, message, webRequest.getPath());
     }
 

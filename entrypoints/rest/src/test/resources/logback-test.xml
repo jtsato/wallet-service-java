@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+    <!-- JsonConverterTest intentionally triggers serialization failure; avoid WARN + full stack on success path -->
+    <logger name="io.github.jtsato.walletservice.entrypoint.rest.common.JsonConverter" level="ERROR"/>
+</configuration>

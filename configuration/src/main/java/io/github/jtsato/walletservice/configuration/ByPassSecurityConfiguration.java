@@ -17,7 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Profile({"test", "dev"})
 @EnableWebSecurity
 @Configuration
-public class ByPassSecurityConfiguration  {
+public class ByPassSecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
