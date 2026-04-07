@@ -82,7 +82,7 @@ jobs:
 
       - name: Push the changes
         if: ${{ env.SHOULD_I_COMMIT == 'Yes' }}
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@4cc74773234f74829a8c21bc4d69dd4be9cfa599 # master @ 2026-03-12
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
