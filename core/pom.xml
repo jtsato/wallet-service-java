@@ -27,8 +27,8 @@
         <junit-jupiter-engine.version>5.11.4</junit-jupiter-engine.version>
         <assertj-core.version>3.27.7</assertj-core.version>
         <mockito-junit-jupiter.version>5.20.0</mockito-junit-jupiter.version>
-        <pitest-maven.version>1.18.0</pitest-maven.version>
-        <pitest-junit5-plugin.version>1.2.1</pitest-junit5-plugin.version>
+        <pitest-maven.version>1.23.0</pitest-maven.version>
+        <pitest-junit5-plugin.version>1.2.3</pitest-junit5-plugin.version>
         <jacoco.agent.version>0.8.14</jacoco.agent.version>
         <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
     </properties>

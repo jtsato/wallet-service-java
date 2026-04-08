@@ -29,8 +29,8 @@
         <jakarta.validation-api.version>3.1.1</jakarta.validation-api.version>
         <hibernate-validator.version>8.0.2.Final</hibernate-validator.version>
         <glassfish.expressly.version>5.0.0</glassfish.expressly.version>
-        <pitest-maven.version>1.18.0</pitest-maven.version>
-        <pitest-junit5-plugin.version>1.2.1</pitest-junit5-plugin.version>
+        <pitest-maven.version>1.23.0</pitest-maven.version>
+        <pitest-junit5-plugin.version>1.2.3</pitest-junit5-plugin.version>
         <sonar.coverage.exclusions>
             **/src/**/core/**,
             **/src/**/WalletsServiceRestApplication.java
