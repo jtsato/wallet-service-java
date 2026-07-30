@@ -166,7 +166,7 @@ class DepositControllerTest {
                         .content(new ObjectMapper().writeValueAsString(new DepositRequest("0"))))
                .andDo(print())
                .andExpect(status().isBadRequest())
-               .andExpect(jsonMessage("The deposit amount must be at least 0.01!"));
+               .andExpect(jsonMessage("The deposit amount must be at least 0.01 and have no more than two decimal places!"));
 
         verifyNoInteractions(depositUseCase);
     }
@@ -186,7 +186,7 @@ class DepositControllerTest {
                         .content(new ObjectMapper().writeValueAsString(new DepositRequest("0"))))
                .andDo(print())
                .andExpect(status().isBadRequest())
-               .andExpect(jsonMessage("O valor do depósito deve ser no mínimo 0,01!"));
+               .andExpect(jsonMessage("O valor do depósito deve ser no mínimo 0,01 e ter no máximo duas casas decimais!"));
     }
 
     private String buildDepositRequest(final String amount) throws JsonProcessingException {

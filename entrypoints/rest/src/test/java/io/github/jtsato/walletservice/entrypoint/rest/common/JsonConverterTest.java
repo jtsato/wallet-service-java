@@ -23,6 +23,21 @@ class JsonConverterTest {
                 .contains("\"value\":\"abc\"");
     }
 
+    @DisplayName("Should mask values in diagnostic JSON")
+    @Test
+    void shouldMaskValuesInDiagnosticJson() {
+        final String json = JsonConverter.maskedOf(new SensitivePayload("alice@example.com", "100.00"));
+
+        assertThat(json).contains("\"userId\":\"a***m\"")
+                .contains("\"amount\":\"1***0\"")
+                .doesNotContain("alice@example.com");
+    }
+
+    @Test
+    void shouldMaskEmailWhileKeepingDomain() {
+        assertThat(JsonConverter.maskEmail("alice@example.com")).isEqualTo("a***e@example.com");
+    }
+
     @DisplayName("Should return empty string on JsonProcessingException")
     @Test
     void shouldReturnEmptyStringOnJsonProcessingException() {
@@ -50,5 +65,22 @@ class JsonConverterTest {
             };
         }
     }
-}
 
+    static final class SensitivePayload implements Serializable {
+        private final String userId;
+        private final String amount;
+
+        SensitivePayload(final String userId, final String amount) {
+            this.userId = userId;
+            this.amount = amount;
+        }
+
+        public String getUserId() {
+            return userId;
+        }
+
+        public String getAmount() {
+            return amount;
+        }
+    }
+}

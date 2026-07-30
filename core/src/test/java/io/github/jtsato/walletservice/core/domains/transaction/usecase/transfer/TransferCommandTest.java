@@ -44,4 +44,13 @@ class TransferCommandTest {
         assertThat(constraintViolationException.getConstraintViolations()).hasSize(1);
         assertThat(constraintViolationException.getMessage()).contains("amount: validation.transaction.transfer.amount.invalid");
     }
+
+    @DisplayName("Fail to create TransferCommand with more than two decimal places")
+    @Test
+    void failToCreateTransferCommandWithMoreThanTwoDecimalPlaces() {
+        final Exception exception = Assertions.assertThrows(Exception.class, () -> new TransferCommand(1L, 2L, "10.001"));
+
+        assertThat(exception).isInstanceOf(ConstraintViolationException.class);
+        assertThat(exception.getMessage()).contains("amount: validation.transaction.transfer.amount.invalid");
+    }
 }

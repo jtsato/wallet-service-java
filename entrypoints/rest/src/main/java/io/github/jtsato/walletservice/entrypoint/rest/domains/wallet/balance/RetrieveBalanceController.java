@@ -3,6 +3,7 @@ package io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.balance;
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 import io.github.jtsato.walletservice.core.domains.wallet.usecase.balance.RetrieveBalanceUseCase;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
+import io.github.jtsato.walletservice.entrypoint.rest.common.JsonConverter;
 import io.github.jtsato.walletservice.entrypoint.rest.common.metric.LogExecutionTime;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -35,10 +36,11 @@ public class RetrieveBalanceController implements RetrieveBalanceApiMethod {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}/balances")
     public BalanceResponse execute(@PathVariable final Long id) {
-        log.info("Controller -> RetrieveBalanceController by User: {}", webRequest.getEmail());
+        log.info("Controller -> RetrieveBalanceController by User: {}", JsonConverter.maskEmail(webRequest.getEmail()));
         log.info("Controller -> RetrieveBalanceController by Wallet Id: {}", id);
         final Wallet wallet = useCase.execute(id);
-        log.info("Controller -> RetrieveBalanceController.execute with response: {}", wallet.balance());
+        log.info("Controller -> RetrieveBalanceController.execute with response: {}",
+                JsonConverter.maskedOf(new BalanceResponse(wallet.balance())));
 
         return new BalanceResponse(wallet.balance());
     }

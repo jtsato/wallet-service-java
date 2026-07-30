@@ -10,6 +10,7 @@ import io.github.jtsato.walletservice.core.domains.transactions.usecase.xcutting
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 import io.github.jtsato.walletservice.core.domains.wallet.xcutting.GetWalletByIdGateway;
 import io.github.jtsato.walletservice.core.exception.NotFoundException;
+import io.github.jtsato.walletservice.core.exception.InsufficientBalanceException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -87,7 +88,7 @@ class WithdrawUseCaseTest {
         final Exception exception = Assertions.assertThrows(Exception.class, () -> useCase.execute(command));
 
         // Assert
-        assertThat(exception).isInstanceOf(Exception.class);
+        assertThat(exception).isInstanceOf(InsufficientBalanceException.class);
         assertThat(exception.getMessage()).isEqualTo("validation.wallet.insufficient.balance");
     }
 

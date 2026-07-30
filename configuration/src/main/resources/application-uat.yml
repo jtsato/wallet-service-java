@@ -23,9 +23,9 @@ spring:
       serialization:
          fail-on-empty-beans: false
    datasource:
-      url: jdbc:p6spy:mysql://localhost:3306/db?useSSL=false
-      username: root
-      password: root
+      url: ${DB_URL:jdbc:p6spy:mysql://localhost:3306/db?useSSL=false}
+      username: ${DB_USERNAME:}
+      password: ${DB_PASSWORD:}
       driver-class-name: com.p6spy.engine.spy.P6SpyDriver
       hikari:
          minimum-idle: 2
@@ -49,7 +49,7 @@ spring:
             connection:
                provider_disables_autocommit: false
       hibernate:
-         ddl-auto: update
+         ddl-auto: validate
    data:
       rest:
          detection-strategy: visibility
@@ -73,8 +73,8 @@ springdoc:
 
 okta:
   oauth2:
-    clientId: ${OKTA_OAUTH2_CLIENT_ID:..}
-    clientSecret: ${OKTA_OAUTH2_CLIENT_SECRET:..}}
-    issuer: ${OKTA_OAUTH2_ISSUER:https://dev-507648.okta.com/oauth2/default}
-    audience: api://default
+    clientId: ${OKTA_OAUTH2_CLIENT_ID:}
+    clientSecret: ${OKTA_OAUTH2_CLIENT_SECRET:}
+    issuer: ${OKTA_OAUTH2_ISSUER:}
+    audience: ${OKTA_OAUTH2_AUDIENCE:api://default}
     groups-claim: groups

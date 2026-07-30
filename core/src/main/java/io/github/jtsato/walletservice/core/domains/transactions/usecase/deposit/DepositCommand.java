@@ -2,6 +2,7 @@ package io.github.jtsato.walletservice.core.domains.transactions.usecase.deposit
 
 import io.github.jtsato.walletservice.core.common.validation.SelfValidating;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -26,6 +27,7 @@ public class DepositCommand extends SelfValidating<DepositCommand> implements Se
 
     @NotNull(message = "validation.transaction.deposit.amount.null")
     @DecimalMin(value = "0.01", message = "validation.transaction.deposit.amount.invalid")
+    @Digits(integer = 17, fraction = 2, message = "validation.transaction.deposit.amount.invalid")
     private final String amount;
 
     public DepositCommand(final Long walletId, final String amount) {

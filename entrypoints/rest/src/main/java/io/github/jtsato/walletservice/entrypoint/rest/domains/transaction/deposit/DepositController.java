@@ -3,8 +3,8 @@ package io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.depos
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.deposit.DepositCommand;
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.deposit.DepositUseCase;
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
-import io.github.jtsato.walletservice.entrypoint.rest.common.JsonConverter;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
+import io.github.jtsato.walletservice.entrypoint.rest.common.JsonConverter;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.WalletPresenter;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.WalletResponse;
 import lombok.RequiredArgsConstructor;
@@ -41,12 +41,12 @@ public class DepositController implements DepositApiMethod {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public WalletResponse execute(@PathVariable final Long walletId, @RequestBody @DefaultValue final DepositRequest request) {
-        log.info("Controller -> DepositController by User: {}", webRequest.getEmail());
-        final String json = JsonConverter.of(request);
-        log.info("Controller -> DepositController -> with json: {}", json);
+        final String jsonRequest = JsonConverter.maskedOf(request);
+        log.info("Controller -> DepositController by User: {}", JsonConverter.maskEmail(webRequest.getEmail()));
+        log.info("Controller -> DepositController with: {}", jsonRequest);
         final Wallet wallet = depositUseCase.execute(new DepositCommand(walletId, request.getAmount()));
         final WalletResponse response = WalletPresenter.of(wallet);
-        log.info("Controller -> DepositController.execute with response: {}", response);
+        log.info("Deposit completed for wallet {}", walletId);
 
         return response;
     }

@@ -35,7 +35,7 @@ public class WalletEntity implements Serializable {
     @Column(name = "USER_ID", nullable = false)
     private String userId;
 
-    @Column(name = "BALANCE", nullable = false)
+    @Column(name = "BALANCE", nullable = false, precision = 19, scale = 2)
     private BigDecimal balance;
 
     @Column(name = "CREATED_AT", nullable = false)

@@ -3,8 +3,8 @@ package io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.withd
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.withdraw.WithdrawCommand;
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.withdraw.WithdrawUseCase;
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
-import io.github.jtsato.walletservice.entrypoint.rest.common.JsonConverter;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
+import io.github.jtsato.walletservice.entrypoint.rest.common.JsonConverter;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.WalletPresenter;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.WalletResponse;
 import lombok.RequiredArgsConstructor;
@@ -41,12 +41,12 @@ public class WithdrawController implements WithdrawApiMethod {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public WalletResponse execute(@PathVariable final Long walletId, @RequestBody @DefaultValue final WithdrawRequest request) {
-        log.info("Controller -> WithdrawController by User: {}", webRequest.getEmail());
-        final String json = JsonConverter.of(request);
-        log.info("Controller -> WithdrawController -> with json: {}", json);
+        final String jsonRequest = JsonConverter.maskedOf(request);
+        log.info("Controller -> WithdrawController by User: {}", JsonConverter.maskEmail(webRequest.getEmail()));
+        log.info("Controller -> WithdrawController with: {}", jsonRequest);
         final Wallet wallet = withdrawUseCase.execute(new WithdrawCommand(walletId, request.getAmount()));
         final WalletResponse response = WalletPresenter.of(wallet);
-        log.info("Controller -> WithdrawController.execute with response: {}", response);
+        log.info("Withdrawal completed for wallet {}", walletId);
 
         return response;
     }

@@ -1,6 +1,7 @@
 package io.github.jtsato.walletservice.exception.handler;
 
 import io.github.jtsato.walletservice.core.exception.InvalidActionException;
+import io.github.jtsato.walletservice.core.exception.InsufficientBalanceException;
 import io.github.jtsato.walletservice.core.exception.NotFoundException;
 import io.github.jtsato.walletservice.entrypoint.rest.common.HttpResponseStatus;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
@@ -46,6 +47,14 @@ public class WalletsServiceExceptionHandler {
     public HttpResponseStatus handleInvalidActionException(final InvalidActionException exception, final Locale locale) {
         final String message = messageSource.getMessage(exception.getMessage(), exception.getArgs(), locale);
         return buildHttpResponseStatus(HttpStatus.BAD_REQUEST, message, webRequest.getPath());
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(InsufficientBalanceException.class)
+    public HttpResponseStatus handleInsufficientBalanceException(final InsufficientBalanceException exception, final Locale locale) {
+        final String message = messageSource.getMessage(exception.getMessage(), exception.getArgs(), locale);
+        return buildHttpResponseStatus(HttpStatus.CONFLICT, message, webRequest.getPath());
     }
 
     @ResponseBody

@@ -37,7 +37,7 @@ public class TransactionEntity implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private WalletEntity wallet;
 
-    @Column(name = "AMOUNT", nullable = false)
+    @Column(name = "AMOUNT", nullable = false, precision = 19, scale = 2)
     private BigDecimal amount;
 
     @Column(name = "TYPE_", nullable = false)

@@ -14,8 +14,8 @@ import io.github.jtsato.walletservice.core.common.paging.Page;
 import io.github.jtsato.walletservice.core.domains.transactions.model.Transaction;
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.history.RetrieveHistoryCommand;
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.history.RetrieveHistoryUseCase;
-import io.github.jtsato.walletservice.entrypoint.rest.common.JsonConverter;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
+import io.github.jtsato.walletservice.entrypoint.rest.common.JsonConverter;
 import io.github.jtsato.walletservice.entrypoint.rest.common.metric.LogExecutionTime;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -40,9 +40,8 @@ public class RetrieveHistoryController implements RetrieveHistoryApiMethod {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{walletId}/balances/historical")
     public RetrieveHistoryWrapperResponse execute(final Pageable pageable, @PathVariable final Long walletId, @DefaultValue final RetrieveHistoryRequest retrieveHistoryRequest) {
-
-        final String jsonRequest = JsonConverter.of(retrieveHistoryRequest);
-        log.info("Controller -> RetrieveHistoryController by User: {}", webRequest.getEmail());
+        final String jsonRequest = JsonConverter.maskedOf(retrieveHistoryRequest);
+        log.info("Controller -> RetrieveHistoryController by User: {}", JsonConverter.maskEmail(webRequest.getEmail()));
         log.info("Controller -> RetrieveHistoryController with: {}", jsonRequest);
 
         final RetrieveHistoryCommand command = buildRetrieveHistoryCommand(walletId, retrieveHistoryRequest);

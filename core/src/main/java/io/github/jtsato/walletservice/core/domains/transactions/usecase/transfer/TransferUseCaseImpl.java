@@ -8,6 +8,7 @@ import io.github.jtsato.walletservice.core.domains.transactions.model.Type;
 
 import io.github.jtsato.walletservice.core.domains.transactions.model.Transaction;
 import io.github.jtsato.walletservice.core.exception.NotFoundException;
+import io.github.jtsato.walletservice.core.exception.InsufficientBalanceException;
 import jakarta.inject.Named;
 import lombok.RequiredArgsConstructor;
 
@@ -34,7 +35,7 @@ public class TransferUseCaseImpl implements TransferUseCase {
         final BigDecimal amount = new BigDecimal(command.getAmount());
 
         if (originWallet.balance().compareTo(amount) < 0) {
-            throw new NotFoundException("validation.wallet.insufficient.balance", String.valueOf(command.getOriginWalletId()));
+            throw new InsufficientBalanceException(command.getOriginWalletId());
         }
 
         final LocalDateTime createdAt = getLocalDateTime.now();

@@ -1,3 +1,11 @@
 spring:
-   profiles:
-      active: test
+   application:
+      name: WalletsService
+management:
+   endpoints:
+      web:
+         exposure:
+            include: health,info,metrics
+   endpoint:
+      health:
+         show-details: never

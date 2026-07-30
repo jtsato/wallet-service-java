@@ -3,8 +3,8 @@ package io.github.jtsato.walletservice.entrypoint.rest.domains.transaction.trans
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.transfer.TransferCommand;
 import io.github.jtsato.walletservice.core.domains.transactions.usecase.transfer.TransferUseCase;
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
-import io.github.jtsato.walletservice.entrypoint.rest.common.JsonConverter;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
+import io.github.jtsato.walletservice.entrypoint.rest.common.JsonConverter;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.WalletPresenter;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.WalletResponse;
 import lombok.RequiredArgsConstructor;
@@ -41,12 +41,12 @@ public class TransferController implements TransferApiMethod {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public WalletResponse execute(@PathVariable final Long originWalletId, @RequestBody @DefaultValue final TransferRequest request) {
-        log.info("Controller -> TransferController by User: {}", webRequest.getEmail());
-        final String json = JsonConverter.of(request);
-        log.info("Controller -> TransferController -> with json: {}", json);
+        final String jsonRequest = JsonConverter.maskedOf(request);
+        log.info("Controller -> TransferController by User: {}", JsonConverter.maskEmail(webRequest.getEmail()));
+        log.info("Controller -> TransferController with: {}", jsonRequest);
         final Wallet wallet = transferUseCase.execute(new TransferCommand(originWalletId, request.getDestinationWalletId(), request.getAmount()));
         final WalletResponse response = WalletPresenter.of(wallet);
-        log.info("Controller -> TransferController.execute with response: {}", response);
+        log.info("Transfer completed from wallet {} to wallet {}", originWalletId, request.getDestinationWalletId());
 
         return response;
     }

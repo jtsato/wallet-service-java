@@ -33,14 +33,14 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: main
           persist-credentials: true
           fetch-depth: 0
 
       - name: Setup Java [v25]
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '25'
@@ -51,7 +51,7 @@ jobs:
 
       - name: Download PlantUML
         run: |
-          PLANTUML_URL="${PLANTUML_URL:-http://sourceforge.net/projects/plantuml/files/plantuml.jar/download}"
+          PLANTUML_URL="${PLANTUML_URL:-https://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar}"
           sudo curl -L "${PLANTUML_URL}" -o /usr/local/bin/plantuml.jar 
           sudo chmod +x /usr/local/bin/plantuml.jar
           sudo chown root:$(whoami) /usr/local/bin/plantuml.jar

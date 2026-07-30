@@ -3,8 +3,8 @@ package io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.create;
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 import io.github.jtsato.walletservice.core.domains.wallet.usecase.create.CreateWalletCommand;
 import io.github.jtsato.walletservice.core.domains.wallet.usecase.create.CreateWalletUseCase;
-import io.github.jtsato.walletservice.entrypoint.rest.common.JsonConverter;
 import io.github.jtsato.walletservice.entrypoint.rest.common.WebRequest;
+import io.github.jtsato.walletservice.entrypoint.rest.common.JsonConverter;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.WalletPresenter;
 import io.github.jtsato.walletservice.entrypoint.rest.domains.wallet.WalletResponse;
 import lombok.RequiredArgsConstructor;
@@ -42,13 +42,13 @@ public class CreateWalletController implements CreateWalletApiMethod {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public WalletResponse execute(@RequestBody @DefaultValue final CreateWalletRequest request) {
-        log.info("Controller -> RegisterWalletController by User: {}", webRequest.getEmail());
-        final String json = JsonConverter.of(request);
-        log.info("Controller -> RegisterBetController -> with json: {}", json);
+        final String jsonRequest = JsonConverter.maskedOf(request);
+        log.info("Controller -> RegisterWalletController by User: {}", JsonConverter.maskEmail(webRequest.getEmail()));
+        log.info("Controller -> RegisterWalletController with: {}", jsonRequest);
         final CreateWalletCommand command = new CreateWalletCommand(request.getUserId());
         final Wallet wallet = createWalletUseCase.execute(command);
         final WalletResponse response = WalletPresenter.of(wallet);
-        log.info("Controller -> RegisterWalletController.execute with response: {}", response);
+        log.info("Wallet created with id {}", response.id());
 
         return response;
     }

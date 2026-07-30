@@ -22,8 +22,11 @@ public class DepositProvider implements DepositGateway {
     @Override
     public Wallet execute(final Wallet currentWallet, final Transaction transaction) {
 
-        final Transaction transactionUpdated = registerTransactionProvider.execute(transaction);
-        final Wallet wallet = currentWallet.withBalance(currentWallet.balance().add(transactionUpdated.amount())).withUpdatedAt(getLocalDateTime.now());
+        final Wallet lockedWallet = updateWalletByIdProvider.findWithLockById(currentWallet.id())
+                .orElseThrow(() -> new NotFoundException("validation.wallet.id.notfound", String.valueOf(currentWallet.id())));
+        final Wallet wallet = lockedWallet.withBalance(lockedWallet.balance().add(transaction.amount())).withUpdatedAt(getLocalDateTime.now());
+        registerTransactionProvider.execute(new Transaction(
+                transaction.id(), lockedWallet, transaction.amount(), transaction.type(), transaction.destinationWallet(), transaction.createdAt()));
 
         return updateWalletByIdProvider.execute(wallet).orElseThrow(() -> new NotFoundException("validation.wallet.id.notfound", String.valueOf(wallet.id())));
     }

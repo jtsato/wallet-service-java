@@ -2,6 +2,7 @@ package io.github.jtsato.walletservice.core.domains.transactions.usecase.withdra
 
 import io.github.jtsato.walletservice.core.common.validation.SelfValidating;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -26,6 +27,7 @@ public class WithdrawCommand extends SelfValidating<WithdrawCommand> implements 
 
     @NotNull(message = "validation.transaction.withdraw.amount.null")
     @DecimalMin(value = "0.01", message = "validation.transaction.withdraw.amount.invalid")
+    @Digits(integer = 17, fraction = 2, message = "validation.transaction.withdraw.amount.invalid")
     private final String amount;
 
     public WithdrawCommand(final Long walletId, final String amount) {

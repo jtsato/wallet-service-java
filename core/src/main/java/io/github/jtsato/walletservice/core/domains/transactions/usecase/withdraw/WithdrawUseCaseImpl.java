@@ -9,6 +9,7 @@ import io.github.jtsato.walletservice.core.domains.transactions.usecase.xcutting
 import io.github.jtsato.walletservice.core.domains.transactions.model.Transaction;
 import io.github.jtsato.walletservice.core.domains.wallet.xcutting.GetWalletByIdGateway;
 import io.github.jtsato.walletservice.core.exception.NotFoundException;
+import io.github.jtsato.walletservice.core.exception.InsufficientBalanceException;
 import jakarta.inject.Named;
 import lombok.RequiredArgsConstructor;
 
@@ -35,7 +36,7 @@ public class WithdrawUseCaseImpl implements WithdrawUseCase {
         final BigDecimal amount = new BigDecimal(command.getAmount());
 
         if (currentWallet.balance().compareTo(amount) < 0) {
-            throw new NotFoundException("validation.wallet.insufficient.balance", String.valueOf(command.getWalletId()));
+            throw new InsufficientBalanceException(command.getWalletId());
         }
 
         final LocalDateTime createdAt = getLocalDateTime.now();

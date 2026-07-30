@@ -25,6 +25,10 @@ public class UpdateWalletByIdProvider implements UpdateWalletByIdGateway {
         return optional.map(walletEntity -> updateWalletEntity(walletEntity, wallet));
     }
 
+    public Optional<Wallet> findWithLockById(final Long walletId) {
+        return walletRepository.findWithLockById(walletId).map(walletMapper::of);
+    }
+
     private Wallet updateWalletEntity(final WalletEntity walletEntity, final Wallet wallet) {
         walletEntity.setBalance(wallet.balance());
         walletEntity.setUpdatedAt(wallet.updatedAt());

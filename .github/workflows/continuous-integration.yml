@@ -44,14 +44,8 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Maven build
-        run: mvn install -Dmaven.test.skip=true
-
-      - name: Run tests
-        run: mvn test -Dspring.profiles.active=test
-
       - name: Run SonarCloud Scan
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+        run: mvn -B clean verify -Dspring.profiles.active=test org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
