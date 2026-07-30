@@ -14,7 +14,6 @@ import io.github.jtsato.walletservice.exception.handler.WalletsServiceExceptionH
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
@@ -38,6 +37,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -72,13 +72,13 @@ class RetrieveHistoryControllerTest {
         @Bean
         @Primary
         RetrieveHistoryUseCase retrieveHistoryUseCase() {
-            return Mockito.mock(RetrieveHistoryUseCase.class);
+            return mock(RetrieveHistoryUseCase.class);
         }
 
         @Bean
         @Primary
         WebRequest webRequest() {
-            return Mockito.mock(WebRequest.class);
+            return mock(WebRequest.class);
         }
     }
 

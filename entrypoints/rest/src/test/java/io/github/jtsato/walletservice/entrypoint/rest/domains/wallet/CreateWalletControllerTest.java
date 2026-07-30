@@ -14,7 +14,6 @@ import io.github.jtsato.walletservice.exception.handler.WalletsServiceExceptionH
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -63,13 +62,13 @@ class CreateWalletControllerTest {
         @Bean
         @Primary
         public CreateWalletUseCase mockCreateWalletUseCase() {
-            return Mockito.mock(CreateWalletUseCase.class);
+            return mock(CreateWalletUseCase.class);
         }
 
         @Bean
         @Primary
         public WebRequest mockWebRequest() {
-            return Mockito.mock(WebRequest.class);
+            return mock(WebRequest.class);
         }
     }
 

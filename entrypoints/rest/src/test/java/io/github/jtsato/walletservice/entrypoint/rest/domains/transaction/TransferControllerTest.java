@@ -15,7 +15,6 @@ import io.github.jtsato.walletservice.exception.handler.WalletsServiceExceptionH
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -35,6 +34,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -66,13 +66,13 @@ class TransferControllerTest {
         @Bean
         @Primary
         public TransferUseCase mockTransferUseCase() {
-            return Mockito.mock(TransferUseCase.class);
+            return mock(TransferUseCase.class);
         }
 
         @Bean
         @Primary
         public WebRequest mockWebRequest() {
-            return Mockito.mock(WebRequest.class);
+            return mock(WebRequest.class);
         }
     }
 

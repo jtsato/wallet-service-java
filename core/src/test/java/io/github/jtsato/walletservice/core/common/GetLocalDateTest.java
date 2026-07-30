@@ -3,11 +3,11 @@ package io.github.jtsato.walletservice.core.common;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 class GetLocalDateTest {
 
     @Mock
-    private GetLocalDate getLocalDate = Mockito.mock(GetLocalDate.class);
+    private GetLocalDate getLocalDate = mock(GetLocalDate.class);
 
     private final GetLocalDateImpl getLocalDateImpl = new GetLocalDateImpl();
 

@@ -16,7 +16,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -73,13 +72,13 @@ class DepositControllerTest {
         @Bean
         @Primary
         public DepositUseCase mockDepositUseCase() {
-            return Mockito.mock(DepositUseCase.class);
+            return mock(DepositUseCase.class);
         }
 
         @Bean
         @Primary
         public WebRequest mockWebRequest() {
-            return Mockito.mock(WebRequest.class);
+            return mock(WebRequest.class);
         }
     }
 

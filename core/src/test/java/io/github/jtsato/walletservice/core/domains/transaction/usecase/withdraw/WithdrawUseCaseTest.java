@@ -16,21 +16,21 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @DisplayName("Withdraw Use Case Test")
 class WithdrawUseCaseTest {
 
-    @Mock private final GetWalletByIdGateway getWalletByIdGateway = Mockito.mock(GetWalletByIdGateway.class);
-    @Mock private final GetLocalDateTime getLocalDateTime = Mockito.mock(GetLocalDateTime.class);
-    @Mock private final WithdrawGateway withdrawGateway = Mockito.mock(WithdrawGateway.class);
+    @Mock private final GetWalletByIdGateway getWalletByIdGateway = mock(GetWalletByIdGateway.class);
+    @Mock private final GetLocalDateTime getLocalDateTime = mock(GetLocalDateTime.class);
+    @Mock private final WithdrawGateway withdrawGateway = mock(WithdrawGateway.class);
 
     @InjectMocks
     private final WithdrawUseCase useCase = new WithdrawUseCaseImpl(getWalletByIdGateway, getLocalDateTime, withdrawGateway);
