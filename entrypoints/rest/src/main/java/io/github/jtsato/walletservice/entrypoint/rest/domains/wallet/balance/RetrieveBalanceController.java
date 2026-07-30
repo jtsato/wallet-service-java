@@ -11,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import static io.github.jtsato.walletservice.entrypoint.rest.common.ControllerLogger.info;
+
+
 /*
  * A EntryPoint follows these steps:
  *
@@ -36,12 +39,14 @@ public class RetrieveBalanceController implements RetrieveBalanceApiMethod {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}/balances")
     public BalanceResponse execute(@PathVariable final Long id) {
-        log.info("Controller -> RetrieveBalanceController by User: {}", JsonConverter.maskEmail(webRequest.getEmail()));
-        log.info("Controller -> RetrieveBalanceController by Wallet Id: {}", id);
+        info(log, () -> "Controller -> RetrieveBalanceController by User: " + JsonConverter.maskEmail(webRequest.getEmail()));
+        info(log, () -> "Controller -> RetrieveBalanceController by Wallet Id: " + id);
+
         final Wallet wallet = useCase.execute(id);
-            log.info("Controller -> RetrieveBalanceController.execute with response: {}",
-                    JsonConverter.maskedOf(new BalanceResponse(wallet.balance())));
+
+        info(log, () -> "Controller -> RetrieveBalanceController.execute with response: " + JsonConverter.maskedOf(new BalanceResponse(wallet.balance())));
 
         return new BalanceResponse(wallet.balance());
     }
+
 }

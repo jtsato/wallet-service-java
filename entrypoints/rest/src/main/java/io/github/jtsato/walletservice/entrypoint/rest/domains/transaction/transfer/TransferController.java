@@ -14,6 +14,9 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import static io.github.jtsato.walletservice.entrypoint.rest.common.ControllerLogger.info;
+
+
 /*
  * A EntryPoint follows these steps:
  *
@@ -41,13 +44,16 @@ public class TransferController implements TransferApiMethod {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public WalletResponse execute(@PathVariable final Long originWalletId, @RequestBody @DefaultValue final TransferRequest request) {
-        final String jsonRequest = JsonConverter.maskedOf(request);
-        log.info("Controller -> TransferController by User: {}", JsonConverter.maskEmail(webRequest.getEmail()));
-        log.info("Controller -> TransferController with: {}", jsonRequest);
+        info(log, () -> "Controller -> TransferController by User: "
+                + JsonConverter.maskEmail(webRequest.getEmail()));
+        info(log, () -> "Controller -> TransferController with: "
+                + JsonConverter.maskedOf(request));
         final Wallet wallet = transferUseCase.execute(new TransferCommand(originWalletId, request.getDestinationWalletId(), request.getAmount()));
         final WalletResponse response = WalletPresenter.of(wallet);
-        log.info("Transfer completed from wallet {} to wallet {}", originWalletId, request.getDestinationWalletId());
+        info(log, () -> "Transfer completed from wallet " + originWalletId
+                + " to wallet " + request.getDestinationWalletId());
 
         return response;
     }
+
 }

@@ -4,7 +4,6 @@ import io.github.jtsato.walletservice.core.domains.transactions.usecase.xcutting
 import io.github.jtsato.walletservice.core.domains.wallet.model.Wallet;
 import io.github.jtsato.walletservice.core.common.GetLocalDateTime;
 import io.github.jtsato.walletservice.core.domains.transactions.model.Type;
-import io.github.jtsato.walletservice.core.domains.transactions.usecase.xcutting.DepositGateway;
 
 import io.github.jtsato.walletservice.core.domains.transactions.model.Transaction;
 import io.github.jtsato.walletservice.core.domains.wallet.xcutting.GetWalletByIdGateway;
@@ -15,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 /**
  * @author Jorge Takeshi Sato

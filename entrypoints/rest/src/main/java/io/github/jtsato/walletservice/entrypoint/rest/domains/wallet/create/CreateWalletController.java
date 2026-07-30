@@ -14,6 +14,9 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import static io.github.jtsato.walletservice.entrypoint.rest.common.ControllerLogger.info;
+
+
 /*
  * A EntryPoint follows these steps:
  *
@@ -42,14 +45,16 @@ public class CreateWalletController implements CreateWalletApiMethod {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public WalletResponse execute(@RequestBody @DefaultValue final CreateWalletRequest request) {
-        final String jsonRequest = JsonConverter.maskedOf(request);
-        log.info("Controller -> RegisterWalletController by User: {}", JsonConverter.maskEmail(webRequest.getEmail()));
-        log.info("Controller -> RegisterWalletController with: {}", jsonRequest);
+        info(log, () -> "Controller -> RegisterWalletController by User: " + JsonConverter.maskEmail(webRequest.getEmail()));
+        info(log, () -> "Controller -> RegisterWalletController with: " + JsonConverter.maskedOf(request));
+
         final CreateWalletCommand command = new CreateWalletCommand(request.getUserId());
         final Wallet wallet = createWalletUseCase.execute(command);
         final WalletResponse response = WalletPresenter.of(wallet);
-        log.info("Wallet created with id {}", response.id());
+
+        info(log, () -> "Wallet created with id " + response.id());
 
         return response;
     }
+
 }

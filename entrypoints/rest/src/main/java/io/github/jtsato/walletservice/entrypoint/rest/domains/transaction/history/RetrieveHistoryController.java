@@ -25,6 +25,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import static io.github.jtsato.walletservice.entrypoint.rest.common.ControllerLogger.info;
+
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("v1/wallets")
@@ -40,9 +43,8 @@ public class RetrieveHistoryController implements RetrieveHistoryApiMethod {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{walletId}/balances/historical")
     public RetrieveHistoryWrapperResponse execute(final Pageable pageable, @PathVariable final Long walletId, @DefaultValue final RetrieveHistoryRequest retrieveHistoryRequest) {
-        final String jsonRequest = JsonConverter.maskedOf(retrieveHistoryRequest);
-        log.info("Controller -> RetrieveHistoryController by User: {}", JsonConverter.maskEmail(webRequest.getEmail()));
-        log.info("Controller -> RetrieveHistoryController with: {}", jsonRequest);
+        info(log, () -> "Controller -> RetrieveHistoryController by User: " + JsonConverter.maskEmail(webRequest.getEmail()));
+        info(log, () -> "Controller -> RetrieveHistoryController with: " + JsonConverter.maskedOf(retrieveHistoryRequest));
 
         final RetrieveHistoryCommand command = buildRetrieveHistoryCommand(walletId, retrieveHistoryRequest);
         final Page<Transaction> pageOfTransactions = useCase.execute(walletId, command.getStartDate(), command.getEndDate(), pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString());

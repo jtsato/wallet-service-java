@@ -14,6 +14,9 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import static io.github.jtsato.walletservice.entrypoint.rest.common.ControllerLogger.info;
+
+
 /*
  * A EntryPoint follows these steps:
  *
@@ -41,12 +44,13 @@ public class DepositController implements DepositApiMethod {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public WalletResponse execute(@PathVariable final Long walletId, @RequestBody @DefaultValue final DepositRequest request) {
-        final String jsonRequest = JsonConverter.maskedOf(request);
-        log.info("Controller -> DepositController by User: {}", JsonConverter.maskEmail(webRequest.getEmail()));
-        log.info("Controller -> DepositController with: {}", jsonRequest);
+        info(log, () -> "Controller -> DepositController by User: " + JsonConverter.maskEmail(webRequest.getEmail()));
+        info(log, () -> "Controller -> DepositController with: " + JsonConverter.maskedOf(request));
+
         final Wallet wallet = depositUseCase.execute(new DepositCommand(walletId, request.getAmount()));
         final WalletResponse response = WalletPresenter.of(wallet);
-        log.info("Deposit completed for wallet {}", walletId);
+
+        info(log, () -> "Deposit completed for wallet " + walletId);
 
         return response;
     }
