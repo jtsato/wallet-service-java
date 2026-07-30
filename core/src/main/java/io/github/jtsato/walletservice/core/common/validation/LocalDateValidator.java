@@ -20,7 +20,7 @@ public class LocalDateValidator implements ConstraintValidator<LocalDateConstrai
     private boolean parseLocalDate(final String candidate) {
         try {
             LocalDate.parse(candidate, DateTimeFormatter.ISO_DATE);
-        } catch (final Exception exception) {
+        } catch (final Exception _) {
             return false;
         }
         return true;

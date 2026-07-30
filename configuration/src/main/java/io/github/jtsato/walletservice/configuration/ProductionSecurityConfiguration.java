@@ -14,12 +14,16 @@ import org.springframework.security.web.SecurityFilterChain;
 public class ProductionSecurityConfiguration {
 
     @Bean
-    public SecurityFilterChain productionSecurityFilterChain(final HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/actuator/health", "/actuator/info").permitAll()
-                        .anyRequest().authenticated())
-                .httpBasic(httpBasic -> {})
-                .csrf(AbstractHttpConfigurer::disable);
-        return http.build();
+    public SecurityFilterChain productionSecurityFilterChain(final HttpSecurity http) {
+        try {
+            http.authorizeHttpRequests(auth -> auth
+                            .requestMatchers("/actuator/health", "/actuator/info").permitAll()
+                            .anyRequest().authenticated())
+                    .httpBasic(httpBasic -> {})
+                    .csrf(AbstractHttpConfigurer::disable);
+            return http.build();
+        } catch (final Exception exception) {
+            throw new IllegalStateException("Unable to configure production security", exception);
+        }
     }
 }

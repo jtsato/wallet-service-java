@@ -11,6 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class WalletsServiceApplication {
 
     public static void main(final String[] args) {
-        SpringApplication.run(WalletsServiceApplication.class);
+        SpringApplication.run(WalletsServiceApplication.class, args);
     }
 }

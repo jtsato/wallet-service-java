@@ -39,8 +39,8 @@ public class RetrieveBalanceController implements RetrieveBalanceApiMethod {
         log.info("Controller -> RetrieveBalanceController by User: {}", JsonConverter.maskEmail(webRequest.getEmail()));
         log.info("Controller -> RetrieveBalanceController by Wallet Id: {}", id);
         final Wallet wallet = useCase.execute(id);
-        log.info("Controller -> RetrieveBalanceController.execute with response: {}",
-                JsonConverter.maskedOf(new BalanceResponse(wallet.balance())));
+            log.info("Controller -> RetrieveBalanceController.execute with response: {}",
+                    JsonConverter.maskedOf(new BalanceResponse(wallet.balance())));
 
         return new BalanceResponse(wallet.balance());
     }

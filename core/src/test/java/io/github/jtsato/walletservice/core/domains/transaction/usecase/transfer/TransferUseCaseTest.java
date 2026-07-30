@@ -81,8 +81,9 @@ class TransferUseCaseTest {
         when(getWalletByIdGateway.execute(1L)).thenReturn(Optional.of(buildOriginWallet()));
         when(getWalletByIdGateway.execute(2L)).thenReturn(Optional.empty());
 
+        final TransferCommand command = new TransferCommand(1L, 2L, "10");
         final Exception exception = Assertions.assertThrows(NotFoundException.class,
-                () -> useCase.execute(new TransferCommand(1L, 2L, "10")));
+                () -> useCase.execute(command));
 
         assertThat(exception.getMessage()).isEqualTo("validation.wallet.id.notfound");
     }

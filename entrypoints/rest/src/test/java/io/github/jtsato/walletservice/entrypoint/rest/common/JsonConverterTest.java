@@ -43,7 +43,7 @@ class JsonConverterTest {
     void shouldReturnEmptyStringOnJsonProcessingException() {
         final String json = JsonConverter.of(new BadSerializable());
 
-        assertThat(json).isEqualTo("");
+        assertThat(json).isEmpty();
     }
 
     static final class TestPayload implements Serializable {

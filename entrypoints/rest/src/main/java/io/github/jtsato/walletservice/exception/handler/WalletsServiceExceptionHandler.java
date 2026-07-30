@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
+import java.time.Clock;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,8 @@ import java.util.stream.Collectors;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 public class WalletsServiceExceptionHandler {
+
+    private static final Clock CLOCK = Clock.systemDefaultZone();
 
     private final MessageSource messageSource;
 
@@ -68,6 +71,6 @@ public class WalletsServiceExceptionHandler {
     }
 
     public static HttpResponseStatus buildHttpResponseStatus(final HttpStatus httpStatus, final String message, final String path) {
-        return new HttpResponseStatus(LocalDateTime.now(), httpStatus.value(), httpStatus.getReasonPhrase(), message, path);
+        return new HttpResponseStatus(LocalDateTime.now(CLOCK), httpStatus.value(), httpStatus.getReasonPhrase(), message, path);
     }
 }

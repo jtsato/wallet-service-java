@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TransferProvider implements TransferGateway {
 
+    private static final String WALLET_NOT_FOUND = "validation.wallet.id.notfound";
+
     private final RegisterTransactionProvider registerTransactionProvider;
     private final GetLocalDateTime getLocalDateTime;
     private final UpdateWalletByIdProvider updateWalletByIdProvider;
@@ -25,9 +27,9 @@ public class TransferProvider implements TransferGateway {
 
         final boolean originFirst = originWallet.id() < destinationWallet.id();
         final Wallet firstLocked = updateWalletByIdProvider.findWithLockById(originFirst ? originWallet.id() : destinationWallet.id())
-                .orElseThrow(() -> new NotFoundException("validation.wallet.id.notfound", String.valueOf(originFirst ? originWallet.id() : destinationWallet.id())));
+                .orElseThrow(() -> new NotFoundException(WALLET_NOT_FOUND, String.valueOf(originFirst ? originWallet.id() : destinationWallet.id())));
         final Wallet secondLocked = updateWalletByIdProvider.findWithLockById(originFirst ? destinationWallet.id() : originWallet.id())
-                .orElseThrow(() -> new NotFoundException("validation.wallet.id.notfound", String.valueOf(originFirst ? destinationWallet.id() : originWallet.id())));
+                .orElseThrow(() -> new NotFoundException(WALLET_NOT_FOUND, String.valueOf(originFirst ? destinationWallet.id() : originWallet.id())));
         final Wallet lockedOrigin = originFirst ? firstLocked : secondLocked;
         final Wallet lockedDestination = originFirst ? secondLocked : firstLocked;
         if (lockedOrigin.balance().compareTo(transaction.amount()) < 0) {
@@ -38,8 +40,8 @@ public class TransferProvider implements TransferGateway {
         registerTransactionProvider.execute(new Transaction(
                 transaction.id(), lockedOrigin, transaction.amount(), transaction.type(), lockedDestination, transaction.createdAt()));
 
-        updateWalletByIdProvider.execute(destination).orElseThrow(() -> new NotFoundException("validation.wallet.id.notfound", String.valueOf(destinationWallet.id())));
+        updateWalletByIdProvider.execute(destination).orElseThrow(() -> new NotFoundException(WALLET_NOT_FOUND, String.valueOf(destinationWallet.id())));
 
-        return updateWalletByIdProvider.execute(source).orElseThrow(() -> new NotFoundException("validation.wallet.id.notfound", String.valueOf(originWallet.id())));
+        return updateWalletByIdProvider.execute(source).orElseThrow(() -> new NotFoundException(WALLET_NOT_FOUND, String.valueOf(originWallet.id())));
     }
 }

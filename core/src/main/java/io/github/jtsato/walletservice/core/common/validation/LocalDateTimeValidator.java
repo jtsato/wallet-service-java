@@ -21,7 +21,7 @@ public class LocalDateTimeValidator implements ConstraintValidator<LocalDateTime
         try {
             LocalDateTime.parse(candidate, DateTimeFormatter.ISO_DATE_TIME);
             return true;
-        } catch (final Exception exception) {
+        } catch (final Exception _) {
             return false;
         }
     }

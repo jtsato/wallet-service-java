@@ -20,18 +20,17 @@ import org.springframework.security.web.SecurityFilterChain;
 public class ByPassSecurityConfiguration {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .securityMatcher("/**")
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
-                )
-                .csrf(AbstractHttpConfigurer::disable)
-                .headers(headers -> headers
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
-                );
-
-        return httpSecurity.build();
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
+        try {
+            httpSecurity
+                    .securityMatcher("/**")
+                    .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                    .csrf(AbstractHttpConfigurer::disable)
+                    .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+            return httpSecurity.build();
+        } catch (final Exception exception) {
+            throw new IllegalStateException("Unable to configure test security", exception);
+        }
     }
 
     @Bean
