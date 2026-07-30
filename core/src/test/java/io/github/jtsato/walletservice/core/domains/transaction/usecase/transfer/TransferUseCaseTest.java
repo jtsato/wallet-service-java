@@ -74,6 +74,30 @@ class TransferUseCaseTest {
         assertThat(exception).isInstanceOf(NotFoundException.class);
         assertThat(exception.getMessage()).isEqualTo("validation.wallet.id.notfound");
     }
+
+    @DisplayName("Fail to transfer if destination wallet is not found")
+    @Test
+    void failToTransferIfDestinationWalletNotFound() {
+        when(getWalletByIdGateway.execute(1L)).thenReturn(Optional.of(buildOriginWallet()));
+        when(getWalletByIdGateway.execute(2L)).thenReturn(Optional.empty());
+
+        final Exception exception = Assertions.assertThrows(NotFoundException.class,
+                () -> useCase.execute(new TransferCommand(1L, 2L, "10")));
+
+        assertThat(exception.getMessage()).isEqualTo("validation.wallet.id.notfound");
+    }
+
+    @DisplayName("Fail to transfer when origin wallet has insufficient balance")
+    @Test
+    void failToTransferWithInsufficientBalance() {
+        when(getWalletByIdGateway.execute(1L)).thenReturn(Optional.of(buildOriginWallet()));
+        when(getWalletByIdGateway.execute(2L)).thenReturn(Optional.of(buildDestinationWallet()));
+
+        final Exception exception = Assertions.assertThrows(Exception.class,
+                () -> useCase.execute(new TransferCommand(1L, 2L, "110")));
+
+        assertThat(exception.getMessage()).isEqualTo("validation.wallet.insufficient.balance");
+    }
     
     private Wallet buildOriginWallet() {
         return new Wallet(1L, "1001", BigDecimal.valueOf(100), LocalDateTime.parse("2020-03-12T22:04:59.123"), LocalDateTime.parse("2020-03-12T22:04:59.123"));
