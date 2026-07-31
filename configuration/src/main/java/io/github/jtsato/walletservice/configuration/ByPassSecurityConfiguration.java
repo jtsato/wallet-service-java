@@ -25,7 +25,6 @@ public class ByPassSecurityConfiguration {
             httpSecurity
                     .securityMatcher("/**")
                     .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-                    .csrf(AbstractHttpConfigurer::disable)
                     .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
             return httpSecurity.build();
         } catch (final Exception exception) {
